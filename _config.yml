@@ -1,0 +1,54 @@
+title: Prit Sheth
+tagline: Senior Software Engineer at Meta
+description: >-
+  Senior Software Engineer at Meta. I build at the intersection of Ads, ML, and
+  distributed systems. Previously Stellar, Robinhood, Dropbox, Quantstamp (YC W18), and Barclays.
+author:
+  name: Prit Sheth
+  email: pritsheth9@gmail.com
+  linkedin: https://www.linkedin.com/in/pritsheth/
+  github: https://github.com/pritsheth
+url: "https://pritsheth.com"
+baseurl: ""
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: /blog/:title/
+
+# Collections (notes is a Jekyll collection so each note becomes its own page)
+collections:
+  notes:
+    output: true
+    permalink: /notes/:path/
+
+# Default front-matter so you don't have to repeat `layout: post` on every file
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+  - scope:
+      path: ""
+      type: notes
+    values:
+      layout: note
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
+  - node_modules/
+  - .jekyll-cache/
+
+kramdown:
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: highlight

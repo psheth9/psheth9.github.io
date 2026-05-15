@@ -1,0 +1,14 @@
+Save your headshot to this folder as: prit.jpg
+
+The site already references it at /assets/img/prit.jpg — as soon as the file is here,
+the homepage will use it automatically (the "PS" fallback only shows if the file is missing).
+
+Recommended:
+  - Square or portrait orientation works (CSS crops it to a square, biased toward the top)
+  - 600 × 600 px or larger
+  - JPG, PNG, or WebP all fine — just keep the filename "prit.jpg"
+
+If you use a different format (PNG/WebP), also update the src in index.html:
+  src="{{ '/assets/img/prit.png' | relative_url }}"
+
+Delete this PHOTO_HERE.txt file once your photo is in place.

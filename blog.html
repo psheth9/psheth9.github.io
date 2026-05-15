@@ -1,0 +1,36 @@
+---
+layout: default
+title: Blog
+permalink: /blog/
+description: Tech writing from Prit Sheth — Ads, ML, distributed systems, and the occasional war story.
+---
+
+{% include notes-gate.html %}
+
+<div data-protected hidden>
+
+<div class="page-header">
+  <h1>Blog <a href="#" data-notes-logout class="notes-lock">lock ↩</a></h1>
+  <p>Tech writing — what I'm building, learning, and arguing with myself about.</p>
+</div>
+
+{% if site.posts.size > 0 %}
+  <ul class="entry-list">
+    {% for post in site.posts %}
+      <li class="entry">
+        <span class="entry__when">{{ post.date | date: "%b %d, %Y" }}</span>
+        <div>
+          <a href="{{ post.url | relative_url }}" class="entry__title">{{ post.title }}</a>
+          {% if post.excerpt %}
+            <p class="entry__excerpt">{{ post.excerpt | strip_html | strip_newlines | truncate: 140 }}</p>
+          {% endif %}
+        </div>
+        <span class="entry__tag entry__tag--blog">post</span>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p style="color: var(--text-muted);">No posts yet. Add a Markdown file to <code>_posts/</code> to publish one.</p>
+{% endif %}
+
+</div><!-- /data-protected -->

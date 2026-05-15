@@ -1,0 +1,9 @@
+<header class="site-header">
+  <a href="{{ '/' | relative_url }}" class="site-header__logo">prit.sheth</a>
+  <nav class="site-nav">
+    <a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>about</a>
+    <a href="{{ '/blog/' | relative_url }}" {% if page.url contains '/blog' %}class="active"{% endif %}>blog</a>
+    <a href="{{ '/notes/' | relative_url }}" {% if page.url contains '/notes' %}class="active"{% endif %}>notes</a>
+    <button class="theme-toggle" aria-label="Toggle theme" title="Toggle theme (t)">☾</button>
+  </nav>
+</header>

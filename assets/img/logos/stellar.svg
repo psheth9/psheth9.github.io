@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" aria-label="Stellar">
+  <!-- Three forward-slash bars (Stellar payment-network mark) -->
+  <g fill="#1a1a1a">
+    <rect x="2"  y="40" width="48" height="6" rx="3" transform="rotate(-32 26 43)"/>
+    <rect x="2"  y="28" width="48" height="6" rx="3" transform="rotate(-32 26 31)" opacity="0.75"/>
+    <rect x="2"  y="16" width="48" height="6" rx="3" transform="rotate(-32 26 19)" opacity="0.5"/>
+  </g>
+  <!-- "stellar" wordmark — lowercase, matches their brand styling -->
+  <text x="68" y="46"
+        font-family="Helvetica, Arial, sans-serif"
+        font-size="42"
+        font-weight="600"
+        letter-spacing="-1"
+        fill="#1a1a1a">stellar</text>
+</svg>

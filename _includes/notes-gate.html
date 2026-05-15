@@ -1,0 +1,42 @@
+{%- comment -%}
+  Shared password gate. Used by /notes/ and /blog/. Once unlocked, the
+  sessionStorage flag in notes-gate.js applies to both sections for the
+  duration of the browser session.
+{%- endcomment -%}
+
+{%- assign section = "section" -%}
+{%- if page.url contains "/blog" -%}
+  {%- assign section = "blog" -%}
+  {%- assign blurb = "Work in progress, drafts, and posts I'm still chewing on. Drop the password if you have it." -%}
+{%- elsif page.url contains "/notes" -%}
+  {%- assign section = "notes" -%}
+  {%- assign blurb = "My personal working notebook — algorithms, system design, papers I'm reading. Drop the password if you have it." -%}
+{%- else -%}
+  {%- assign blurb = "Drop the password if you have it." -%}
+{%- endif -%}
+
+<div class="notes-gate" hidden>
+  <div class="notes-gate__inner">
+    <p class="notes-gate__eyebrow">prit.sheth / {{ section }}</p>
+    <h1 class="notes-gate__title">This section is private.</h1>
+    <p class="notes-gate__sub">{{ blurb }}</p>
+
+    <form class="notes-gate__form" autocomplete="off">
+      <label for="notes-pw" class="notes-gate__label">Password</label>
+      <input id="notes-pw"
+             type="password"
+             class="notes-gate__input"
+             autocomplete="current-password"
+             spellcheck="false"
+             autocapitalize="off"
+             required>
+      <button type="submit" class="notes-gate__btn">Unlock →</button>
+      <p class="notes-gate__error" hidden>Wrong password. Try again.</p>
+    </form>
+
+    <p class="notes-gate__hint">
+      Don't have the password? <a href="mailto:pritsheth9@gmail.com">Ask me</a>.
+      Just browsing? Head <a href="{{ '/' | relative_url }}">back home</a>.
+    </p>
+  </div>
+</div>

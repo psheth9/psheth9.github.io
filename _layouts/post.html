@@ -1,0 +1,20 @@
+---
+layout: default
+---
+
+{% include notes-gate.html %}
+
+<article class="prose" data-protected hidden>
+  <p class="prose__meta">
+    Blog · {{ page.date | date: "%B %-d, %Y" }}
+    {% if page.tags %} · {{ page.tags | join: " · " }}{% endif %}
+    · <a href="#" data-notes-logout class="notes-lock">lock ↩</a>
+  </p>
+  <h1>{{ page.title }}</h1>
+  {{ content }}
+
+  <hr>
+  <p style="font-family: var(--font-mono); font-size: 12px; color: var(--text-faint);">
+    <a href="{{ '/blog/' | relative_url }}">← back to blog</a>
+  </p>
+</article>
