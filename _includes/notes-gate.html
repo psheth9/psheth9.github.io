@@ -11,6 +11,9 @@
 {%- elsif page.url contains "/notes" -%}
   {%- assign section = "notes" -%}
   {%- assign blurb = "My personal working notebook — algorithms, system design, papers I'm reading. Drop the password if you have it." -%}
+{%- elsif page.url == "/" -%}
+  {%- assign section = "cv" -%}
+  {%- assign blurb = "The CV is private. Drop the password if you have it." -%}
 {%- else -%}
   {%- assign blurb = "Drop the password if you have it." -%}
 {%- endif -%}

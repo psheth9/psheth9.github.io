@@ -24,6 +24,7 @@
 (function () {
   var STORAGE_KEY  = 'prit-notes-auth-v1';
   var PASSWORD_HASH = '53ec3e5e6a695d005fc83fad3db669add6aa5b1ba3656a44094278342bf11db7';
+  var pendingDownload = null;
 
   function bytesToHex(buf) {
     return Array.from(new Uint8Array(buf))
@@ -72,15 +73,28 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     var hasProtected = !!document.querySelector('[data-protected]');
-    if (!hasProtected) return;
+    var cvLink = document.querySelector('[data-cv-link]');
 
-    if (isAuthed()) {
-      reveal();
-      bindLogout();
-      return;
+    if (!hasProtected && !cvLink) return;
+
+    // CV link gate: intercept click and require auth before downloading
+    if (cvLink) {
+      cvLink.addEventListener('click', function (e) {
+        if (isAuthed()) return; // already unlocked — proceed normally
+        e.preventDefault();
+        pendingDownload = cvLink.href;
+        showGate();
+      });
     }
 
-    showGate();
+    if (hasProtected) {
+      if (isAuthed()) {
+        reveal();
+        bindLogout();
+        return;
+      }
+      showGate();
+    }
 
     var form  = document.querySelector('.notes-gate__form');
     var input = document.querySelector('.notes-gate__input');
@@ -95,8 +109,13 @@
         var hash = await sha256Hex(pw);
         if (hash === PASSWORD_HASH) {
           try { sessionStorage.setItem(STORAGE_KEY, 'ok'); } catch (_) {}
-          reveal();
-          bindLogout();
+          if (pendingDownload) {
+            window.location.href = pendingDownload;
+            pendingDownload = null;
+          } else {
+            reveal();
+            bindLogout();
+          }
         } else {
           if (error) error.removeAttribute('hidden');
           input.value = '';
