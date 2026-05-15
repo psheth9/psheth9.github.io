@@ -207,16 +207,17 @@ pre code { background: transparent; padding: 0; }
   top: 20px;
 }
 .profile-card__avatar {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  background: var(--border);
-  border-radius: var(--radius-sm);
-  margin-bottom: 16px;
+  width: 140px;
+  height: 140px;
+  background: var(--bg);
+  border-radius: 50%;
+  margin: 0 auto 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   position: relative;
+  box-shadow: 0 0 0 3px var(--border);
 }
 .profile-card__avatar picture {
   width: 100%;
@@ -788,7 +789,7 @@ pre code { background: transparent; padding: 0; }
   .container { padding: 0 18px; }
   .operator-grid { grid-template-columns: 1fr; gap: 22px; }
   .profile-card { position: static; }
-  .profile-card__avatar { max-width: 200px; margin-left: auto; margin-right: auto; }
+  .profile-card__avatar { width: 120px; height: 120px; }
   .career-strip { grid-template-columns: repeat(2, 1fr); }
   .stats-row { grid-template-columns: 1fr; }
   .also-built { grid-template-columns: 1fr; }
