@@ -269,22 +269,27 @@ description: Senior Software Engineer at Meta. I build at the intersection of Ad
 
     </section>
 
-    {%- comment -%} -- Recommendations (placeholder slots) -- {%- endcomment -%}
+    {%- comment -%} -- Recommendations -- {%- endcomment -%}
     <section class="section">
       <p class="section__label">What people I've worked with say</p>
       <div class="recs-grid">
-        <figure class="rec rec__placeholder">
+
+        <figure class="rec">
           <blockquote>
-            "Paste a 1-2 sentence recommendation from your LinkedIn here. Keep it short — the best recs are specific and high-signal."
+            <span class="rec__text">"Prit was great to work with. He thought thoroughly through his eng designs so we were prepared for complications up front and brought wisdom to our solutions. He also dove deep into difficult problems and worked independently, asking good questions when appropriate. Prit was also a positive influence on the team as he built meaningful personal connections and always maintained an upbeat attitude even when times were tough or uncertain without being fake or disingenuous. This combination of technical expertise and positive influence makes him a great team member!"</span>
+            <button class="rec__toggle" onclick="var t=this.previousElementSibling;t.classList.toggle('rec__text--expanded');this.textContent=t.classList.contains('rec__text--expanded')?'see less':'see more'">see more</button>
           </blockquote>
-          <figcaption>— [Recommender name], [their role]</figcaption>
+          <figcaption>— Co-founder &amp; CTO @odo | Ex-Robinhood</figcaption>
         </figure>
-        <figure class="rec rec__placeholder">
+
+        <figure class="rec">
           <blockquote>
-            "Second recommendation goes here. You can add as many of these as you want — just duplicate the block."
+            <span class="rec__text">"I was the mentor of Prit Sheth in Global Think Tank Innovation Contest held at Barclaycard and run by MasterCard. His ingenious idea of a Smart Recommendation Engine not only became the only project from India to qualify but also won the contest. He has proven himself as an exceptionally committed collaborator who consistently asks questions and seeks guidance when needed, to improve his understanding of the business, technology, and solutions. In the final round, he had pitched his idea to the CEO of Barclaycard US and other executives and Innovation Council. The presentation was very well received. In my time with Prit I observed him as forward thinking yet grounded in the technology that would both limit and enable the solution. He would be an asset to the program and I offer my highest recommendation."</span>
+            <button class="rec__toggle" onclick="var t=this.previousElementSibling;t.classList.toggle('rec__text--expanded');this.textContent=t.classList.contains('rec__text--expanded')?'see less':'see more'">see more</button>
           </blockquote>
-          <figcaption>— [Recommender name], [their role]</figcaption>
+          <figcaption>— SVP Card Acquisition and Digital Product</figcaption>
         </figure>
+
       </div>
     </section>
 

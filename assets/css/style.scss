@@ -516,6 +516,30 @@ pre code { background: transparent; padding: 0; }
   color: var(--text-faint);
 }
 .rec__placeholder blockquote { color: var(--text-faint); }
+.rec__text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.rec__text--expanded {
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+.rec__toggle {
+  display: inline-block;
+  margin-top: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent-coral);
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.rec__toggle:hover { opacity: 0.75; }
 
 /* ============================================================
    BLOG + NOTES INDEX
