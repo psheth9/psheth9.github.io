@@ -9,7 +9,8 @@
       "Bash(python *)",
       "Bash(pip install *)",
       "PowerShell(Copy-Item *)",
-      "Bash(curl *)"
+      "Bash(curl *)",
+      "Bash(rm assets/img/psh_original.jpeg)"
     ]
   }
 }
