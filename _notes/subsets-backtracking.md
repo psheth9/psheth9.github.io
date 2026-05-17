@@ -63,6 +63,13 @@ def subsetsWithDup(nums: List[int]) -> List[List[int]]:
 - Permutations II (LeetCode 47)
 - Palindrome partitioning (LeetCode 131)
 
-## Sample problems
+## Problems to try
 
-<!-- add LeetCode problems here as you solve them -->
+| # | Problem | Difficulty | Pattern |
+|---|---|---|---|
+| [78](https://leetcode.com/problems/subsets/) | Subsets | Medium | Collect at every node; no duplicate guard needed |
+| [90](https://leetcode.com/problems/subsets-ii/) | Subsets II | Medium | Sort + `i > start` duplicate guard |
+| [40](https://leetcode.com/problems/combination-sum-ii/) | Combination Sum II | Medium | Same guard; add `remaining` param |
+| [47](https://leetcode.com/problems/permutations-ii/) | Permutations II | Medium | `used[]` array; same-level skip |
+| [131](https://leetcode.com/problems/palindrome-partitioning/) | Palindrome Partitioning | Medium | Partition + palindrome check at each split |
+| [698](https://leetcode.com/problems/partition-to-k-equal-sum-subsets/) | Partition to K Equal Sum Subsets | Medium | Assign each element to one of k buckets |

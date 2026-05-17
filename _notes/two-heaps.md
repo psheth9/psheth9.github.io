@@ -79,6 +79,12 @@ def get_median():
 - IPO — maximize capital with k projects (LeetCode 502)
 - Smallest range covering elements from k lists
 
-## Sample problems
+## Problems to try
 
-<!-- add LeetCode problems here as you solve them -->
+| # | Problem | Difficulty | Pattern |
+|---|---|---|---|
+| [295](https://leetcode.com/problems/find-median-from-data-stream/) | Find Median from Data Stream | Hard | Two heaps; balance after each insert |
+| [480](https://leetcode.com/problems/sliding-window-median/) | Sliding Window Median | Hard | Two heaps + lazy deletion |
+| [502](https://leetcode.com/problems/ipo/) | IPO | Hard | Max-heap for profit; min-heap for capital |
+| [703](https://leetcode.com/problems/kth-largest-element-in-a-stream/) | K-th Largest in a Stream | Easy | Size-K min-heap |
+| [378](https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/) | K-th Smallest in Sorted Matrix | Medium | Min-heap of row heads |

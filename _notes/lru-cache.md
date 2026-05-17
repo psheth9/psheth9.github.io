@@ -78,3 +78,12 @@ Head/tail sentinels eliminate edge cases. Without them, every insert/remove need
 ## Where this comes up in real systems
 
 Almost everywhere. Page caches, CDN edge nodes, query result caches, browser HTTP cache. The classic question is whether *true* LRU is worth the extra bookkeeping vs an approximation — at scale, the answer is almost always "use the approximation."
+
+## Problems to try
+
+| # | Problem | Difficulty | Pattern |
+|---|---|---|---|
+| [146](https://leetcode.com/problems/lru-cache/) | LRU Cache | Medium | DLL + hashmap; sentinel nodes |
+| [460](https://leetcode.com/problems/lfu-cache/) | LFU Cache | Hard | Two dicts + freq-bucketed DLL |
+| [432](https://leetcode.com/problems/all-oone-data-structure/) | All O(1) Data Structure | Hard | DLL of frequency buckets |
+| [1172](https://leetcode.com/problems/dinner-plate-stacks/) | Dinner Plate Stacks | Hard | Ordered stacks with push/pop hints |

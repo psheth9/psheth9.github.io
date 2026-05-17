@@ -47,11 +47,15 @@ Space: O(n) for the stack and output.
 - **Storing values vs indices** — when the answer depends on distance (e.g., daily temperatures), you must store indices.
 - **Direction** — sometimes scanning right-to-left is cleaner. The stack is the same, just the loop direction flips.
 
-## Related problems I've solved with this
+## Problems to try
 
-- LeetCode 496 · Next Greater Element I
-- LeetCode 503 · Next Greater Element II (circular array — scan twice)
-- LeetCode 739 · Daily Temperatures
-- LeetCode 84 · Largest Rectangle in Histogram
-- LeetCode 907 · Sum of Subarray Minimums
-- LeetCode 42 · Trapping Rain Water
+| # | Problem | Difficulty | Pattern |
+|---|---|---|---|
+| [496](https://leetcode.com/problems/next-greater-element-i/) | Next Greater Element I | Easy | Stack of decreasing values |
+| [503](https://leetcode.com/problems/next-greater-element-ii/) | Next Greater Element II | Medium | Circular array — iterate array twice |
+| [739](https://leetcode.com/problems/daily-temperatures/) | Daily Temperatures | Medium | Stack of indices; answer = i − j |
+| [84](https://leetcode.com/problems/largest-rectangle-in-histogram/) | Largest Rectangle in Histogram | Hard | Pop while smaller; width = i − stack[-1] − 1 |
+| [907](https://leetcode.com/problems/sum-of-subarray-minimums/) | Sum of Subarray Minimums | Medium | Left/right boundary via two stacks |
+| [42](https://leetcode.com/problems/trapping-rain-water/) | Trapping Rain Water | Hard | Valley between two taller walls |
+| [85](https://leetcode.com/problems/maximal-rectangle/) | Maximal Rectangle | Hard | Histogram per row + LC 84 |
+| [316](https://leetcode.com/problems/remove-duplicate-letters/) | Remove Duplicate Letters | Medium | Monotonic stack + remaining count |

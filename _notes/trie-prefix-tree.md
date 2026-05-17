@@ -70,6 +70,13 @@ class Trie:
 - Longest word where every prefix is also a word
 - Palindrome pairs — store reversed words, query suffix
 
-## Sample problems
+## Problems to try
 
-<!-- add LeetCode problems here as you solve them -->
+| # | Problem | Difficulty | Pattern |
+|---|---|---|---|
+| [208](https://leetcode.com/problems/implement-trie-prefix-tree/) | Implement Trie | Medium | Standard insert / search / startsWith |
+| [211](https://leetcode.com/problems/design-add-and-search-words-data-structure/) | Add and Search Words | Medium | Wildcard `.` → DFS over all children |
+| [212](https://leetcode.com/problems/word-search-ii/) | Word Search II | Hard | Build trie of words; DFS board |
+| [648](https://leetcode.com/problems/replace-words/) | Replace Words | Medium | Find shortest root prefix |
+| [472](https://leetcode.com/problems/concatenated-words/) | Concatenated Words | Hard | DFS with trie to split words |
+| [336](https://leetcode.com/problems/palindrome-pairs/) | Palindrome Pairs | Hard | Store reversed words; query suffixes |

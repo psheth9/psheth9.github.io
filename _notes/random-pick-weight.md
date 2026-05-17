@@ -58,6 +58,11 @@ Building an expanded list (repeat index `i` exactly `w[i]` times) works but uses
 - Load balancing proportional to server capacity
 - A/B test traffic splitting by percentage
 
-## Sample problems
+## Problems to try
 
-<!-- add LeetCode problems here as you solve them -->
+| # | Problem | Difficulty | Pattern |
+|---|---|---|---|
+| [528](https://leetcode.com/problems/random-pick-with-weight/) | Random Pick with Weight | Medium | Prefix sum + `bisect_left` |
+| [710](https://leetcode.com/problems/random-pick-with-blacklist/) | Random Pick with Blacklist | Hard | Remap blacklisted indices to safe zone |
+| [497](https://leetcode.com/problems/random-point-in-non-overlapping-rectangles/) | Random Point in Non-Overlapping Rectangles | Medium | Weight by area; prefix sum + bisect |
+| [380](https://leetcode.com/problems/insert-delete-getrandom-o1/) | Insert Delete GetRandom O(1) | Medium | Dict + list + swap-and-pop |
