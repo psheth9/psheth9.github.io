@@ -119,5 +119,11 @@ layout: default
     a.className = 'lc-num';
   });
 
+  /* ── 4. Open all links in Problems sections in a new tab ── */
+  document.querySelectorAll('.note-section--problems a').forEach(function (a) {
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener noreferrer');
+  });
+
 })();
 </script>
