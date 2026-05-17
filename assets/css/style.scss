@@ -1423,6 +1423,212 @@ pre code { background: transparent; padding: 0; }
 .note-page--terminal .note-footer a { color: #6e7681; }
 .note-page--terminal .note-footer a:hover { color: #58a6ff; }
 
+/* ============================================================
+   NOW STRIP  (homepage "currently reading / thinking")
+   ============================================================ */
+.now-strip {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent-gold);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.now-item {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+.now-item__label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-faint);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  min-width: 64px;
+  flex-shrink: 0;
+}
+.now-item__value {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ============================================================
+   CASE STUDY PAGE
+   ============================================================ */
+.cs-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 0 80px;
+}
+.cs-back {
+  margin-bottom: 32px;
+}
+.cs-back a {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-faint);
+  border-bottom: none;
+}
+.cs-back a:hover { color: var(--accent-coral); }
+
+/* Hero */
+.cs-hero { margin-bottom: 52px; }
+.cs-hero__tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.cs-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+.cs-hero__title {
+  font-family: var(--font-serif);
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 16px;
+}
+.cs-hero__sub {
+  font-size: 16px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0 0 32px;
+}
+.cs-kpis {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 12px;
+}
+.cs-kpi {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.cs-kpi__num {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1;
+}
+.cs-kpi--wide .cs-kpi__num { font-size: 18px; }
+.cs-kpi__label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-faint);
+  letter-spacing: 0.1em;
+}
+
+/* Body sections */
+.cs-body { font-size: 15px; line-height: 1.75; }
+.cs-section {
+  margin-bottom: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--border);
+}
+.cs-section:last-child { border-bottom: none; }
+.cs-section h2 {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0 0 18px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.cs-num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-faint);
+  font-weight: 400;
+}
+.cs-section h3 {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0 0 10px;
+  color: var(--text);
+}
+.cs-section p  { margin: 0 0 14px; }
+.cs-section ul { padding-left: 22px; margin: 0 0 14px; }
+.cs-section li { margin-bottom: 6px; }
+.cs-section table { width: 100%; border-collapse: collapse; margin: 0 0 14px; font-size: 14px; }
+.cs-section th {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.cs-section td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  vertical-align: top;
+}
+.cs-section td:first-child { font-weight: 500; color: var(--text); white-space: nowrap; }
+
+/* Decision callout boxes */
+.cs-decision {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent-coral);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  margin: 24px 0;
+}
+.cs-decision__label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-coral);
+  margin: 0 0 6px !important;
+}
+.cs-decision h3 { margin-bottom: 12px !important; }
+.cs-decision p:last-child { margin-bottom: 0 !important; }
+
+@media (max-width: 600px) {
+  .cs-hero__title { font-size: 28px; }
+  .cs-kpis { grid-template-columns: 1fr 1fr; }
+  .cs-kpi--wide { grid-column: 1 / -1; }
+  .cs-kpi__num { font-size: 20px; }
+  .cs-kpi--wide .cs-kpi__num { font-size: 15px; }
+}
+
+/* ============================================================
+   HOMEPAGE — featured__more as link
+   ============================================================ */
+.featured__more {
+  display: inline-block;
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--accent-coral);
+  border-bottom: none;
+}
+.featured__more:hover { color: var(--accent-coral); opacity: 0.8; border-bottom: none; }
+
 /* ----- Footer ----- */
 .site-footer {
   border-top: 1px solid var(--border);

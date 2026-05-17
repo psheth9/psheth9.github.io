@@ -140,6 +140,21 @@ description: Senior Software Engineer focused on low-latency distributed systems
       </div>
     </section>
 
+    {%- comment -%} -- Now strip -- {%- endcomment -%}
+    <section class="section">
+      <p class="section__label">Now</p>
+      <div class="now-strip">
+        <div class="now-item">
+          <span class="now-item__label">reading</span>
+          <span class="now-item__value">Systems Performance — Brendan Gregg</span>
+        </div>
+        <div class="now-item">
+          <span class="now-item__label">thinking</span>
+          <span class="now-item__value">ML model serving infrastructure · latency vs throughput trade-offs at scale</span>
+        </div>
+      </div>
+    </section>
+
     {%- comment -%} -- Shipped stats -- {%- endcomment -%}
     <section class="section">
       <p class="section__label">Shipped · by the numbers</p>
@@ -172,7 +187,7 @@ description: Senior Software Engineer focused on low-latency distributed systems
           stack. Aggregates real-time impression and offsite conversion signals across batch
           and near-real-time streaming pipelines. Policy-driven per-entity frequency control
           with dynamic threshold tuning — shipped without impacting serving SLAs at scale.
-          <span class="featured__more">$7M+ annualized iRev delivered →</span>
+          <a href="/case-study/ads-frequency-capping/" class="featured__more">$7M+ annualized iRev · read the case study →</a>
         </p>
       </div>
     </section>

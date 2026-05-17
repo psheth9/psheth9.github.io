@@ -1,0 +1,138 @@
+---
+layout: default
+title: "Ads Frequency Personalization Engine — Case Study"
+permalink: /case-study/ads-frequency-capping/
+description: "How I engineered a real-time frequency personalization system for Meta's Dynamic Ads ranking stack, delivering $7M+ in annualized incremental revenue without impacting serving SLAs."
+---
+
+<div class="cs-wrap">
+
+  <nav class="cs-back"><a href="/">← back</a></nav>
+
+  <header class="cs-hero">
+    <div class="cs-hero__tags">
+      <span class="cs-tag">Case Study</span>
+      <span class="cs-tag">Meta · 2024–2025</span>
+      <span class="cs-tag">Ads Ranking Infrastructure</span>
+    </div>
+    <h1 class="cs-hero__title">Ads Frequency Personalization Engine</h1>
+    <p class="cs-hero__sub">How I built a low-latency, policy-driven frequency capping system integrated into Meta's final-stage Dynamic Ads ranking pipeline — and shipped $7M+ in annualized incremental revenue without touching serving SLAs.</p>
+    <div class="cs-kpis">
+      <div class="cs-kpi">
+        <span class="cs-kpi__num">$7M+</span>
+        <span class="cs-kpi__label">annualized iRev</span>
+      </div>
+      <div class="cs-kpi">
+        <span class="cs-kpi__num">0ms</span>
+        <span class="cs-kpi__label">p99 latency impact</span>
+      </div>
+      <div class="cs-kpi cs-kpi--wide">
+        <span class="cs-kpi__num">batch + streaming</span>
+        <span class="cs-kpi__label">dual-pipeline architecture</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="cs-body prose">
+
+    <section class="cs-section">
+      <h2><span class="cs-num">01</span> Background</h2>
+      <p>In paid digital advertising, <em>frequency</em> — the number of times a user sees the same ad — is a critical lever for campaign effectiveness. At low frequencies, users may never build brand recall. At high frequencies, the same creative becomes noise: click-through rates drop, sentiment turns negative, and cost-per-result climbs.</p>
+      <p>Meta's ads platform serves billions of impressions daily across Facebook, Instagram, and Audience Network. At that scale, even a modest improvement in delivery efficiency — getting the right frequency to the right user — translates to hundreds of millions in annual revenue. The flip side: systematic over-delivery to fatigued audiences wastes advertiser budget and trains users to ignore ads.</p>
+    </section>
+
+    <section class="cs-section">
+      <h2><span class="cs-num">02</span> The Problem</h2>
+      <p>The existing frequency controls in Meta's Dynamic Ads pipeline were too coarse. They operated on hard caps — global per-user or per-campaign limits — that didn't account for three important dimensions:</p>
+      <ul>
+        <li><strong>Signal quality.</strong> A user who clicked on three ads from an advertiser is not the same as one who scrolled past all of them. Both counted equally toward a cap.</li>
+        <li><strong>Conversion context.</strong> Impression count alone misses the signal most correlated with fatigue: the rate at which conversion probability degrades as frequency increases.</li>
+        <li><strong>Entity granularity.</strong> A single campaign cap treated all ads within it as interchangeable, ignoring per-creative performance differences.</li>
+      </ul>
+      <p>The result was systematic over-delivery to disengaged audiences (wasting budget) and under-delivery to receptive ones (leaving revenue on the table). My mandate: design and ship a real-time, personalized frequency capping system integrated into the final-stage Dynamic Ads ranker.</p>
+    </section>
+
+    <section class="cs-section">
+      <h2><span class="cs-num">03</span> Constraints</h2>
+      <p>The serving context imposed hard constraints that shaped every design decision:</p>
+      <table>
+        <thead><tr><th>Constraint</th><th>Requirement</th></tr></thead>
+        <tbody>
+          <tr><td>Latency</td><td>Feature lookup must fit within the overall serving budget</td></tr>
+          <tr><td>Impression consistency</td><td>Eventual consistency acceptable — mild undercounting is fine</td></tr>
+          <tr><td>Conversion consistency</td><td>Near-real-time required — stale conversion signals drive wrong decisions</td></tr>
+          <tr><td>Scale</td><td>Billions of auctions per day, millions of active advertisers</td></tr>
+          <tr><td>Reliability</td><td>Fail-open: frequency checks must never block serving</td></tr>
+          <tr><td>Interpretability</td><td>Policy teams must be able to reason about and tune thresholds directly</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="cs-section">
+      <h2><span class="cs-num">04</span> Architecture</h2>
+      <p>The system has four components:</p>
+
+      <p><strong>1. Signal ingestion layer — two pipelines in parallel.</strong> A <em>batch pipeline</em> aggregates historical impression and conversion events with high precision and a 4–12 hour lag. A <em>streaming pipeline</em> maintains a rolling 24-hour window with minutes of lag and lower precision. Together they form a "coarse + fine" picture: the batch layer provides the anchor; streaming provides recency. If the streaming layer falls behind, the batch layer still provides a reasonable signal.</p>
+
+      <p><strong>2. Entity aggregation store.</strong> A key-value store indexed by <code>(user, entity)</code> — where entity is a campaign, ad set, or creative — storing frequency counts and conversion signal summaries at each granularity level. Reads happen on the serving hot path; writes are async.</p>
+
+      <p><strong>3. Policy engine.</strong> Configurable threshold rules parameterized by entity type (campaigns vs. ad-level caps have different time horizons), audience cohort (high-intent users have different optimal frequencies than cold audiences), and signal quality tier (impression-only users vs. users with prior conversion history).</p>
+
+      <p><strong>4. Tuning framework.</strong> Offline: fits exposure-frequency curves from historical data to identify the inflection point where marginal CTR/conversion lift turns negative. Online: applies the calibrated thresholds, monitors cap hit rates per segment, and re-fits on a scheduled cadence.</p>
+    </section>
+
+    <section class="cs-section">
+      <h2><span class="cs-num">05</span> Key Technical Decisions</h2>
+
+      <div class="cs-decision">
+        <p class="cs-decision__label">Decision 1</p>
+        <h3>Hybrid batch + streaming vs. pure streaming</h3>
+        <p>Pure streaming would give the lowest-latency signal refresh. The problem: at-most-once delivery semantics mean a processing failure silently drops events. For a system making revenue-affecting decisions, silent undercounting is worse than acceptable lag — advertisers would see phantom over-delivery.</p>
+        <p>The hybrid model gave us a clean failure mode: streaming failure degrades gracefully to the batch signal. The engineering complexity cost was worth the reliability gain. In retrospect, this was the right call — the streaming layer did fall behind twice in the first month under unexpected load spikes, and serving continued normally both times.</p>
+      </div>
+
+      <div class="cs-decision">
+        <p class="cs-decision__label">Decision 2</p>
+        <h3>Hierarchical entity model vs. flat per-(user, ad) granularity</h3>
+        <p>Flat per-(user, ad) granularity was the obvious first design. The problem: at Meta's scale, the memory footprint of a full Cartesian product of users × ads is infeasible. Most (user, ad) pairs would have zero or one impression — a hugely sparse structure.</p>
+        <p>The solution was a three-tier hierarchy: advertiser-level (longest time window, lowest memory cost) → campaign-level → ad-level (shortest window, most expensive per key). Each tier applies a different decay function that reflects how quickly fatigue manifests at that granularity. Crucially, the tiers interact: a user at their ad-level cap gets suppressed even if they're under the campaign cap, preventing a single high-spend creative from monopolizing delivery.</p>
+      </div>
+
+      <div class="cs-decision">
+        <p class="cs-decision__label">Decision 3</p>
+        <h3>Quantitative curve fitting vs. ML for threshold tuning</h3>
+        <p>The first instinct was to train a model to predict the optimal cap per user-ad pair. The problem: a model that predicts individual thresholds is a black box to the policy and monetization teams who need to reason about and defend the system's behavior to advertisers.</p>
+        <p>Instead, we fit exposure-frequency curves at the cohort level: for each audience segment, the curve shows how CTR and conversion rate change as frequency increases. The cap threshold is set at the point where the marginal benefit curve crosses a configurable floor. This is re-runnable, interpretable, and maps directly to a business objective. A PM can look at the curve, understand the trade-off, and make a principled call on where to draw the line.</p>
+      </div>
+
+      <div class="cs-decision">
+        <p class="cs-decision__label">Decision 4</p>
+        <h3>Feature in ranking vs. pre-ranking hard filter</h3>
+        <p>A pre-ranking filter eliminates candidates early — fast, but it loses context. The ranker can't weigh frequency against bid price, relevance score, or pacing. A user who is slightly above their frequency cap but is an extremely high-intent buyer — with strong conversion signals — should probably still be served a high-value ad.</p>
+        <p>Integrating frequency as a continuous feature in the final-stage ranker lets the model make that trade-off end-to-end. The feature encodes <em>distance from cap</em> rather than a binary hit/miss, so the ranker applies a smooth penalty rather than a cliff. This produced measurably better outcomes in A/B testing compared to the filter approach.</p>
+      </div>
+    </section>
+
+    <section class="cs-section">
+      <h2><span class="cs-num">06</span> Results</h2>
+      <p>The system shipped without touching serving SLAs — p99 latency was flat pre/post launch. Over the first two quarters of operation:</p>
+      <ul>
+        <li><strong>$7M+ annualized iRev</strong> from improved delivery efficiency — primarily by reducing over-delivery to fatigued audiences and reallocating those impressions to higher-value segments.</li>
+        <li><strong>Cross-format deployment</strong> — the policy engine generalized across Feed, Stories, and Reels without format-specific changes, which validated the hierarchical entity model's generality.</li>
+        <li><strong>Validated model assumptions</strong> — cap hit rates correlated directly with the predicted fatigue signal from the frequency curves. The cohort-level curves were accurate enough that the first set of thresholds required only minor adjustment post-launch.</li>
+      </ul>
+    </section>
+
+    <section class="cs-section">
+      <h2><span class="cs-num">07</span> What I'd Do Differently</h2>
+
+      <p><strong>Start with a simpler baseline.</strong> The first version should have been a global cap at the campaign level — nothing personalized, just a hard ceiling. It would have shipped 3× faster and established a performance floor to build on. I underestimated how much that baseline alone would move the metric. Personalization layers should be incremental additions, not part of the v1 scope.</p>
+
+      <p><strong>Observability before optimization.</strong> Real-time dashboards showing cap hit rates per segment, per format, per cohort — broken down by time-of-day — would have cut the first tuning cycle from two weeks to two days. We built these after launch. They should have been launch criteria.</p>
+
+      <p><strong>Make failure modes explicit in the contract.</strong> The fail-open guarantee was documented internally but not formalized in the serving integration contract. When a downstream team adopted the system for a new format, they were surprised by the behavior under backpressure. Explicit runbooks and failure mode documentation would have avoided that friction.</p>
+    </section>
+
+  </div><!-- /cs-body -->
+
+</div><!-- /cs-wrap -->
