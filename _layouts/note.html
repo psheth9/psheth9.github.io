@@ -4,21 +4,120 @@ layout: default
 
 {% include notes-gate.html %}
 
-<article class="prose" data-protected hidden>
-  <p class="prose__meta">
-    {% if page.category == 'algo' %}Algorithm note{% elsif page.category == 'system-design' %}System design note{% else %}Note{% endif %}
-    {% if page.date %} · {{ page.date | date: "%B %-d, %Y" }}{% endif %}
-    {% if page.difficulty %} · {{ page.difficulty }}{% endif %}
-    · <a href="#" data-notes-logout class="notes-lock">lock ↩</a>
-  </p>
-  <h1>{{ page.title }}</h1>
-  {% if page.problem %}
-    <blockquote>{{ page.problem }}</blockquote>
-  {% endif %}
-  {{ content }}
+<div class="note-page" data-protected hidden>
 
-  <hr>
-  <p style="font-family: var(--font-mono); font-size: 12px; color: var(--text-faint);">
+  <!-- Header card -->
+  <header class="note-header">
+    <div class="note-header__meta">
+      <span class="note-cat note-cat--{{ page.category }}">
+        {%- if page.category == 'graph' -%}graph
+        {%- elsif page.category == 'tree' -%}tree
+        {%- elsif page.category == 'python' -%}python
+        {%- elsif page.category == 'system-design' -%}sys design
+        {%- else -%}algo{%- endif -%}
+      </span>
+      {% if page.difficulty %}
+        <span class="note-diff note-diff--{{ page.difficulty }}">{{ page.difficulty }}</span>
+      {% endif %}
+      {% if page.date %}
+        <span class="note-header__date">{{ page.date | date: "%b %-d, %Y" }}</span>
+      {% endif %}
+      <a href="#" data-notes-logout class="note-header__lock notes-lock">lock ↩</a>
+    </div>
+    <h1 class="note-title">{{ page.title }}</h1>
+    {% if page.summary %}
+      <p class="note-summary">{{ page.summary }}</p>
+    {% endif %}
+  </header>
+
+  <!-- Core insight callout -->
+  {% if page.problem %}
+    <div class="note-insight">
+      <span class="note-insight__icon">💡</span>
+      <span>{{ page.problem }}</span>
+    </div>
+  {% endif %}
+
+  <!-- Note content (sections wrapped into cards by JS below) -->
+  <div class="prose note-prose">
+    {{ content }}
+  </div>
+
+  <footer class="note-footer">
     <a href="{{ '/notes/' | relative_url }}">← back to notes</a>
-  </p>
-</article>
+  </footer>
+
+</div><!-- /note-page -->
+
+<script>
+(function () {
+  var prose = document.querySelector('.note-prose');
+  if (!prose) return;
+
+  /* ── 1. Wrap content between h2 headings into card sections ── */
+  function getIcon(text) {
+    var t = text.toLowerCase();
+    if (t.indexOf('complexity') !== -1) return '⚡';
+    if (t.indexOf('problem') !== -1)    return '★';
+    if (t.indexOf('when') !== -1 || t.indexOf('shows up') !== -1) return '→';
+    if (t.indexOf('key rule') !== -1 || t.indexOf('invariant') !== -1) return '◆';
+    if (t.indexOf('sample') !== -1)     return '★';
+    return '◈';
+  }
+
+  function getSectionClass(text) {
+    var t = text.toLowerCase();
+    if (t.indexOf('complexity') !== -1) return 'note-section--complexity';
+    if (t.indexOf('problem') !== -1 || t.indexOf('sample') !== -1) return 'note-section--problems';
+    if (t.indexOf('when') !== -1 || t.indexOf('shows up') !== -1)  return 'note-section--when';
+    return '';
+  }
+
+  var children = Array.from(prose.childNodes);
+  var currentBody = null;
+
+  children.forEach(function (el) {
+    if (el.nodeType !== 1) return; // skip text nodes
+
+    if (el.tagName === 'H2') {
+      var section = document.createElement('div');
+      var extra = getSectionClass(el.textContent);
+      section.className = 'note-section' + (extra ? ' ' + extra : '');
+
+      var label = document.createElement('div');
+      label.className = 'note-section__label';
+      label.textContent = getIcon(el.textContent) + '  ' + el.textContent;
+
+      var body = document.createElement('div');
+      body.className = 'note-section__body';
+
+      section.appendChild(label);
+      section.appendChild(body);
+      prose.insertBefore(section, el);
+
+      currentBody = body;
+      prose.removeChild(el);
+    } else if (currentBody) {
+      currentBody.appendChild(el);
+    }
+  });
+
+  /* ── 2. Inject difficulty badges ── */
+  document.querySelectorAll('.note-prose table td').forEach(function (td) {
+    var text = td.textContent.trim();
+    if (text === 'Easy' || text === 'Medium' || text === 'Hard') {
+      var badge = document.createElement('span');
+      badge.className = 'diff-badge diff-badge--' + text.toLowerCase();
+      badge.textContent = text;
+      td.textContent = '';
+      td.appendChild(badge);
+    }
+  });
+
+  /* ── 3. Style LC problem number links (1st col in Problems sections) ── */
+  document.querySelectorAll('.note-section--problems .note-section__body tbody td:first-child a').forEach(function (a) {
+    a.className = 'lc-num';
+  });
+
+})();
+</script>

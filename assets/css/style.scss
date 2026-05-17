@@ -872,6 +872,245 @@ pre code { background: transparent; padding: 0; }
   text-transform: uppercase;
 }
 
+/* ============================================================
+   NOTE PAGE — REDESIGNED CARD LAYOUT
+   ============================================================ */
+
+/* Wider container for note pages */
+.note-page { max-width: 880px; margin: 0 auto; }
+.note-page .prose { max-width: unset; }
+
+/* --- Header card --- */
+.note-header {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px 20px;
+  margin-bottom: 20px;
+}
+.note-header__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.note-header__date {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-left: auto;
+}
+.note-header__lock {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-faint);
+}
+.note-title {
+  font-size: 28px;
+  margin: 0 0 8px;
+  line-height: 1.25;
+}
+.note-summary {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.65;
+}
+
+/* Category badge (note header) */
+.note-cat {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.note-cat--algo    { background: #e1f5ee; color: #085041; }
+.note-cat--graph   { background: #e3f0ff; color: #0a3d80; }
+.note-cat--tree    { background: #f0fbe6; color: #2d5a0e; }
+.note-cat--python  { background: #fef6e0; color: #7a4e00; }
+.note-cat--sysd    { background: #faece7; color: #712b13; }
+[data-theme="dark"] .note-cat--algo   { background: #0f2a23; color: #5dcaa5; }
+[data-theme="dark"] .note-cat--graph  { background: #0d1e38; color: #7ab8f5; }
+[data-theme="dark"] .note-cat--tree   { background: #162610; color: #8cd45a; }
+[data-theme="dark"] .note-cat--python { background: #2a1e00; color: #f0c060; }
+[data-theme="dark"] .note-cat--sysd   { background: #2b1410; color: #f0997b; }
+
+/* Difficulty badge */
+.note-diff {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.note-diff--easy      { background: #e1f5ee; color: #085041; }
+.note-diff--medium    { background: #fef6e0; color: #7a4e00; }
+.note-diff--hard      { background: #faece7; color: #712b13; }
+.note-diff--reference { background: #eeedfe; color: #3c3489; }
+[data-theme="dark"] .note-diff--easy      { background: #0f2a23; color: #5dcaa5; }
+[data-theme="dark"] .note-diff--medium    { background: #2a1e00; color: #f0c060; }
+[data-theme="dark"] .note-diff--hard      { background: #2b1410; color: #f0997b; }
+[data-theme="dark"] .note-diff--reference { background: #1c1a3a; color: #afa9ec; }
+
+/* --- Core insight callout --- */
+.note-insight {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent-gold);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+.note-insight__icon { font-size: 15px; flex-shrink: 0; margin-top: 2px; opacity: 0.8; }
+
+/* --- Section cards --- */
+.note-section {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+.note-section__label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 20px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  user-select: none;
+}
+.note-section--complexity .note-section__label { color: var(--accent-gold); }
+.note-section--problems   .note-section__label { color: var(--accent-coral); }
+.note-section--when       .note-section__label { color: #6b9bda; }
+[data-theme="dark"] .note-section--when .note-section__label { color: #7ab8f5; }
+
+.note-section__body {
+  padding: 20px 24px;
+  background: var(--bg-card);
+}
+.note-section__body > *:last-child { margin-bottom: 0 !important; }
+.note-section__body .prose { max-width: unset; }
+.note-section__body .highlight { border-radius: var(--radius-sm); overflow: hidden; }
+
+/* --- Tables --- */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  margin: 0 0 18px;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+.prose table thead th {
+  background: var(--bg);
+  padding: 9px 14px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 2px solid var(--border-strong);
+  white-space: nowrap;
+}
+.prose table tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
+.prose table tbody tr:last-child { border-bottom: none; }
+.prose table tbody tr:nth-child(even) { background: rgba(0,0,0,0.018); }
+[data-theme="dark"] .prose table tbody tr:nth-child(even) { background: rgba(255,255,255,0.025); }
+.prose table tbody tr:hover { background: rgba(212,165,116,0.07); }
+.prose table td { padding: 9px 14px; vertical-align: top; line-height: 1.5; }
+.prose table strong { font-weight: 600; }
+
+/* --- Difficulty badges (JS-injected) --- */
+.diff-badge {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.diff-badge--easy   { background: #e1f5ee; color: #085041; }
+.diff-badge--medium { background: #fef6e0; color: #7a4e00; }
+.diff-badge--hard   { background: #faece7; color: #712b13; }
+[data-theme="dark"] .diff-badge--easy   { background: #0f2a23; color: #5dcaa5; }
+[data-theme="dark"] .diff-badge--medium { background: #2a1e00; color: #f0c060; }
+[data-theme="dark"] .diff-badge--hard   { background: #2b1410; color: #f0997b; }
+
+/* --- LC problem number badge (JS-injected) --- */
+.lc-num {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: #4a90d9;
+  background: rgba(74,144,217,0.1);
+  padding: 1px 7px;
+  border-radius: 3px;
+  text-decoration: none;
+  border-bottom: none !important;
+}
+.lc-num:hover { background: rgba(74,144,217,0.18); color: #4a90d9; border-bottom: none !important; }
+[data-theme="dark"] .lc-num { background: rgba(74,144,217,0.15); }
+
+/* --- Blockquote callout (Key insight blocks) --- */
+.prose blockquote {
+  background: rgba(212,165,116,0.07);
+  border-left: 3px solid var(--accent-gold);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 12px 16px;
+  margin: 0 0 18px;
+  font-style: normal;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text);
+}
+.prose blockquote strong:first-child { color: var(--accent-gold); }
+.prose blockquote p { margin: 0; }
+
+/* --- Note footer --- */
+.note-footer {
+  margin-top: 36px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-faint);
+}
+.note-footer a { color: var(--text-muted); }
+
+/* Note page responsive */
+@media (max-width: 760px) {
+  .note-header { padding: 18px 18px 16px; }
+  .note-section__body { padding: 16px 16px; }
+  .note-title { font-size: 22px; }
+}
+
 /* ----- Footer ----- */
 .site-footer {
   border-top: 1px solid var(--border);

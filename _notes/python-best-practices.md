@@ -508,6 +508,16 @@ def combinationSum2(nums, target):
 
 **Variable key:** *n* = collection size · *k* = result size or distinct element count
 
-## Sample problems
+## Problems to try
 
-<!-- add LeetCode problems here as you solve them -->
+| # | Problem | Difficulty | Concepts |
+|---|---|---|---|
+| [347](https://leetcode.com/problems/top-k-frequent-elements/) | Top K Frequent Elements | Medium | Counter + heapq.nlargest |
+| [295](https://leetcode.com/problems/find-median-from-data-stream/) | Find Median from Data Stream | Hard | Two heaps (max + min) |
+| [355](https://leetcode.com/problems/design-twitter/) | Design Twitter | Medium | heapq, OOP, OrderedDict |
+| [146](https://leetcode.com/problems/lru-cache/) | LRU Cache | Medium | OrderedDict + move_to_end |
+| [380](https://leetcode.com/problems/insert-delete-getrandom-o1/) | Insert Delete GetRandom O(1) | Medium | dict + list + random |
+| [981](https://leetcode.com/problems/time-based-key-value-store/) | Time Based Key-Value Store | Medium | dict of lists + bisect_right |
+| [218](https://leetcode.com/problems/the-skyline-problem/) | The Skyline Problem | Hard | SortedDict / heapq |
+| [23](https://leetcode.com/problems/merge-k-sorted-lists/) | Merge K Sorted Lists | Hard | heapq with (val, index, node) |
+| [692](https://leetcode.com/problems/top-k-frequent-words/) | Top K Frequent Words | Medium | Counter + custom __lt__ |
