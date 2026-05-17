@@ -452,14 +452,27 @@ def getDirections(root, startValue, destValue):
                 q.append((child, path + direction))
 ```
 
-## Complexity reference
+## Complexity
 
-| Algorithm | Time | Space |
-|---|---|---|
-| BFS / DFS | O(V + E) | O(V) |
-| Dijkstra (min-heap) | O((V + E) log V) | O(V) |
-| Topo sort (Kahn's) | O(V + E) | O(V) |
-| Bipartite check | O(V + E) | O(V) |
+> **Key insight:** Most graph algorithms are O(V + E) — you visit every vertex and every edge once. The heap in Dijkstra adds the log V factor.
+
+| Algorithm | Time | Space | Notes |
+|---|---|---|---|
+| BFS (standard) | **O(V + E)** | O(V) | Queue holds at most V nodes |
+| BFS level-by-level | **O(V + E)** | O(V) | `len(queue)` snapshot per level |
+| Grid BFS / DFS | **O(R · C)** | O(R · C) | R = rows, C = cols; visited set is the grid |
+| DFS recursive | **O(V + E)** | O(V) | Stack depth = longest DFS path |
+| DFS iterative | **O(V + E)** | O(V) | Explicit stack avoids recursion limit |
+| Connected components | **O(V + E)** | O(V) | Single BFS/DFS pass |
+| Cycle detection (3-state DFS) | **O(V + E)** | O(V) | gray/black coloring; terminates on back edge |
+| Topo sort — DFS | **O(V + E)** | O(V) | Post-order; reverse at end |
+| Topo sort — Kahn's BFS | **O(V + E)** | O(V) | In-degree table; detect cycle if nodes remain |
+| Dijkstra (min-heap) | **O((V + E) log V)** | O(V) | Each edge relaxation may push to heap |
+| Bipartite check | **O(V + E)** | O(V) | 2-coloring via BFS or DFS |
+| Knight moves BFS | **O(n²)** | O(n²) | Board is n×n; each cell visited once |
+| Word search DFS (LC 79) | **O(R · C · 4^L)** | O(L) | L = word length; 4 directions per step |
+
+**Variable key:** *V* = vertices · *E* = edges · *R/C* = grid rows/cols · *L* = word/path length
 
 ## When each pattern shows up
 
@@ -473,6 +486,19 @@ def getDirections(root, startValue, destValue):
 - **Abstract graph BFS** — bus routes, minimum route changes, grouped-stop problems
 - **Tree as undirected graph** — path directions between nodes, LCA-free path finding
 
-## Sample problems
+## Problems to try
 
-<!-- add LeetCode problems here as you solve them -->
+| # | Problem | Difficulty | Pattern |
+|---|---|---|---|
+| [200](https://leetcode.com/problems/number-of-islands/) | Number of Islands | Medium | Grid BFS/DFS |
+| [994](https://leetcode.com/problems/rotting-oranges/) | Rotting Oranges | Medium | Multi-source BFS |
+| [417](https://leetcode.com/problems/pacific-atlantic-water-flow/) | Pacific Atlantic Water Flow | Medium | Reverse BFS from boundaries |
+| [130](https://leetcode.com/problems/surrounded-regions/) | Surrounded Regions | Medium | Boundary BFS/DFS |
+| [207](https://leetcode.com/problems/course-schedule/) | Course Schedule | Medium | Cycle detection / topo sort |
+| [210](https://leetcode.com/problems/course-schedule-ii/) | Course Schedule II | Medium | Kahn's topological sort |
+| [743](https://leetcode.com/problems/network-delay-time/) | Network Delay Time | Medium | Dijkstra |
+| [787](https://leetcode.com/problems/cheapest-flights-within-k-stops/) | Cheapest Flights Within K Stops | Medium | Dijkstra / Bellman-Ford |
+| [785](https://leetcode.com/problems/is-graph-bipartite/) | Is Graph Bipartite? | Medium | 2-coloring BFS/DFS |
+| [127](https://leetcode.com/problems/word-ladder/) | Word Ladder | Hard | BFS on word graph |
+| [815](https://leetcode.com/problems/bus-routes/) | Bus Routes | Hard | Abstract BFS (route grouping) |
+| [329](https://leetcode.com/problems/longest-increasing-path-in-a-matrix/) | Longest Increasing Path in Matrix | Hard | DFS without visited (branch cut) |

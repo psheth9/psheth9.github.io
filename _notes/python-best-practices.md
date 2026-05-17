@@ -387,6 +387,36 @@ def count_bits(n):
     return count
 ```
 
+## DP for bits — count set bits for 0..n (LC 338)
+
+```python
+# dp[i] = dp[i >> 1] + (i & 1)
+# Shift right = same number with last bit dropped.
+# Add 1 if the dropped bit was set.
+
+def countBits(n):
+    dp = [0] * (n + 1)
+    for i in range(1, n + 1):
+        dp[i] = dp[i >> 1] + (i & 1)
+    return dp
+
+# countBits(5) → [0, 1, 1, 2, 1, 2]
+# dp[4] = dp[2] + 0 = 1;  dp[5] = dp[2] + 1 = 2
+```
+
+```python
+# Variant: is power of two?
+def isPowerOfTwo(n):
+    return n > 0 and (n & (n - 1)) == 0
+
+# Variant: single number — XOR all; duplicates cancel
+def singleNumber(nums):
+    result = 0
+    for n in nums:
+        result ^= n
+    return result
+```
+
 ## Char frequency array (ord trick)
 
 ```python
@@ -452,6 +482,31 @@ def combinationSum2(nums, target):
     backtrack([], 0, target)
     return result
 ```
+
+## Data structure complexity
+
+> **Key insight:** Python's built-in structures are all amortized O(1) for core ops. The two exceptions worth memorising: `heapify` is O(n) (not O(n log n)), and `SortedDict` is O(log n) per op.
+
+| Structure / Operation | Time | Space | Notes |
+|---|---|---|---|
+| `list.sort()` / `sorted()` | **O(n log n)** | O(n) | Timsort; stable |
+| `list.append` / `list.pop()` | **O(1)** amortized | — | `pop(i)` is O(n) |
+| `heapq.heapify(h)` | **O(n)** | O(1) in-place | Not O(n log n) — bottom-up build |
+| `heapq.heappush` / `heappop` | **O(log n)** | O(1) | Per operation |
+| `heapq.nlargest(k, h)` | **O(n log k)** | O(k) | Use when k ≪ n |
+| `deque.append` / `appendleft` | **O(1)** | — | Both ends O(1) |
+| `deque.pop` / `popleft` | **O(1)** | — | Use over `list.pop(0)` |
+| `dict` get / set / delete | **O(1)** avg | O(n) | Hash collision → O(n) worst |
+| `defaultdict` | **O(1)** avg | O(n) | Same as dict |
+| `Counter(iterable)` | **O(n)** | O(k) | k = distinct elements |
+| `Counter.most_common(k)` | **O(n log k)** | O(k) | Partial sort |
+| `OrderedDict.move_to_end` | **O(1)** | — | Doubly-linked list internally |
+| `SortedDict` insert/delete | **O(log n)** | O(n) | sortedcontainers; B-tree |
+| `SortedDict.bisect_left/right` | **O(log n)** | O(1) | Floor/ceil lookup |
+| `bisect.bisect_left/right` | **O(log n)** | O(1) | On sorted list |
+| `bisect.insort` | **O(n)** | O(1) | Shift cost dominates |
+
+**Variable key:** *n* = collection size · *k* = result size or distinct element count
 
 ## Sample problems
 

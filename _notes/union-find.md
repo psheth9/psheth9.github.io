@@ -149,10 +149,17 @@ def earliestAcq(logs, n):
 
 ## Complexity
 
-| | |
-|---|---|
-| find / union | O(α(n)) — inverse Ackermann, effectively O(1) |
-| Space | O(n) |
+> **Key insight:** With path compression + union by rank, each operation is O(α(n)) — the inverse Ackermann function, which is ≤ 4 for any realistic input. Treat it as O(1).
+
+| Operation | Time | Space | Notes |
+|---|---|---|---|
+| `find(x)` | **O(α(n))** ≈ O(1) | O(1) | Path compression flattens on every call |
+| `union(x, y)` | **O(α(n))** ≈ O(1) | O(1) | Rank/size prevents tall trees |
+| Build (n unions) | **O(n · α(n))** ≈ O(n) | O(n) | One `parent` + `rank` array |
+| `connected(x, y)` | **O(α(n))** ≈ O(1) | O(1) | Two `find` calls |
+| 2D grid union-find | **O(R·C · α(R·C))** | O(R·C) | Flat ID: `id = row*cols + col` |
+
+**Variable key:** *n* = number of nodes · *α* = inverse Ackermann (≤ 4 in practice) · *R/C* = grid rows/cols
 
 ## Key details
 
@@ -172,6 +179,15 @@ def earliestAcq(logs, n):
 - Friend circles, accounts merge
 - Kruskal's MST algorithm
 
-## Sample problems
+## Problems to try
 
-<!-- add LeetCode problems here as you solve them -->
+| # | Problem | Difficulty | Pattern |
+|---|---|---|---|
+| [547](https://leetcode.com/problems/number-of-provinces/) | Number of Provinces | Medium | Count connected components |
+| [684](https://leetcode.com/problems/redundant-connection/) | Redundant Connection | Medium | Detect cycle — edge that joins two connected nodes |
+| [990](https://leetcode.com/problems/satisfiability-of-equality-equations/) | Satisfiability of Equality Equations | Medium | Union on `==`, validate on `!=` |
+| [1202](https://leetcode.com/problems/smallest-string-with-swaps/) | Smallest String With Swaps | Medium | Group chars by component, sort each |
+| [1971](https://leetcode.com/problems/find-if-path-exists-in-graph/) | Find if Path Exists in Graph | Easy | `connected(src, dst)` |
+| [305](https://leetcode.com/problems/number-of-islands-ii/) | Number of Islands II | Hard | Dynamic `activate()` per query |
+| [721](https://leetcode.com/problems/accounts-merge/) | Accounts Merge | Medium | Union by email, group by root |
+| [1101](https://leetcode.com/problems/the-earliest-moment-when-everyone-become-friends/) | Earliest Moment All Friends | Medium | Sort by time; union until `components == 1` |

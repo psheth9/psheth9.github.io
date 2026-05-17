@@ -311,12 +311,22 @@ if i > start and nums[i] == nums[i - 1]: continue
 
 ## Complexity
 
-| Problem | Time | Notes |
-|---|---|---|
-| Subsets | O(n · 2ⁿ) | 2ⁿ subsets, each takes O(n) to copy |
-| Permutations | O(n · n!) | n! permutations |
-| Combination Sum | O(2^(t/min)) | t = target, min = smallest candidate |
-| N-Queens | O(n!) | pruning cuts this significantly |
+> **Key insight:** Backtracking explores an exponential search space. Time = number of leaves × path copy cost. Space = recursion depth = max path length.
+
+| Algorithm | Time | Space | Notes |
+|---|---|---|---|
+| Subsets (LC 78) | **O(n · 2ⁿ)** | O(n) | 2ⁿ subsets; each copied in O(n) |
+| Subsets II (LC 90) | **O(n · 2ⁿ)** | O(n) | Sort + prune reduces constant factor |
+| Combination Sum I (LC 39) | **O(2^(t/min))** | O(t/min) | Unbounded — reuse inflates branching |
+| Combination Sum II (LC 40) | **O(2ⁿ)** | O(n) | Each element included or skipped |
+| Permutations (LC 46) | **O(n · n!)** | O(n) | n! leaves; O(n) copy per leaf |
+| Permutations II (LC 47) | **O(n · n!)** | O(n) | `seen` set prunes duplicate swaps |
+| Generate Parentheses (LC 22) | **O(4ⁿ / √n)** | O(n) | Catalan number — only valid strings |
+| Palindrome Partitioning (LC 131) | **O(n · 2ⁿ)** | O(n) | Up to 2^(n−1) ways to split |
+| N-Queens (LC 51) | **O(n!)** | O(n) | col/diag sets prune heavily in practice |
+| Target Sum (LC 494) | **O(2ⁿ)** | O(n) | Binary branch at each element (+/−) |
+
+**Variable key:** *n* = input length · *t* = target value · *min* = smallest candidate
 
 ## When this pattern shows up
 
@@ -327,6 +337,19 @@ if i > start and nums[i] == nums[i - 1]: continue
 - **Parentheses** — any "build valid structure" problem with open/close counts
 - **N-Queens / Sudoku** — place pieces with validity constraints, undo on fail
 
-## Sample problems
+## Problems to try
 
-<!-- add LeetCode problems here as you solve them -->
+| # | Problem | Difficulty | Pattern |
+|---|---|---|---|
+| [78](https://leetcode.com/problems/subsets/) | Subsets | Medium | Collect at every node |
+| [90](https://leetcode.com/problems/subsets-ii/) | Subsets II | Medium | Sort + skip duplicates at same level |
+| [39](https://leetcode.com/problems/combination-sum/) | Combination Sum | Medium | `next = i` (reuse allowed) |
+| [40](https://leetcode.com/problems/combination-sum-ii/) | Combination Sum II | Medium | `next = i+1` + duplicate skip |
+| [46](https://leetcode.com/problems/permutations/) | Permutations | Medium | Swap in-place |
+| [47](https://leetcode.com/problems/permutations-ii/) | Permutations II | Medium | `seen` set per level |
+| [22](https://leetcode.com/problems/generate-parentheses/) | Generate Parentheses | Medium | open < n / close < open guards |
+| [131](https://leetcode.com/problems/palindrome-partitioning/) | Palindrome Partitioning | Medium | Try all substrings from start |
+| [51](https://leetcode.com/problems/n-queens/) | N-Queens | Hard | Col + diagonal set pruning |
+| [494](https://leetcode.com/problems/target-sum/) | Target Sum | Medium | +/− branch at each index |
+| [79](https://leetcode.com/problems/word-search/) | Word Search | Medium | DFS + backtrack on board |
+| [698](https://leetcode.com/problems/partition-to-k-equal-sum-subsets/) | Partition to K Equal Sum Subsets | Medium | Subset partitioning |

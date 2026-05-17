@@ -239,10 +239,21 @@ def fair_workload(folders, k):
 
 ## Complexity
 
-| | |
-|---|---|
-| Time | O(log n) |
-| Space | O(1) iterative, O(log n) recursive |
+> **Key insight:** Every binary search halves the search space each iteration — always O(log n) time, O(1) space when iterative.
+
+| Algorithm / Template | Time | Space | Notes |
+|---|---|---|---|
+| Exact match (Template 1) | **O(log n)** | O(1) | `lo <= hi`; both ends shrink to `mid±1` |
+| Leftmost / first index (Template 2) | **O(log n)** | O(1) | `hi = len(nums)`; never moves past mid |
+| Rightmost / last index (Template 3) | **O(log n)** | O(1) | Bias mid right to avoid 2-element loop |
+| First True in predicate (Template 4) | **O(log n)** | O(1) | Generalized leftmost; flip condition |
+| Binary search on answer | **O(log(R) · C)** | O(1) | R = answer range; C = feasibility check cost |
+| `bisect_left` / `bisect_right` | **O(log n)** | O(1) | Python stdlib; same as Template 2 |
+| Search rotated array (LC 33) | **O(log n)** | O(1) | Identify sorted half before branching |
+| Peak element (LC 162) | **O(log n)** | O(1) | Slope direction determines which half |
+| Recursive binary search | **O(log n)** | O(log n) | Stack frames = depth of recursion |
+
+**Variable key:** *n* = array length · *R* = answer space size (hi − lo) · *C* = cost of one feasibility check (typically O(n))
 
 ## Key rules to never get wrong
 
@@ -261,6 +272,18 @@ def fair_workload(folders, k):
 - Minimum/maximum of a feasible value → binary search on answer
 - Koko bananas, ship packages, split array, fair workload
 
-## Sample problems
+## Problems to try
 
-<!-- add LeetCode problems here as you solve them -->
+| # | Problem | Difficulty | Pattern |
+|---|---|---|---|
+| [704](https://leetcode.com/problems/binary-search/) | Binary Search | Easy | Template 1 — exact match |
+| [34](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/) | Find First and Last Position | Medium | Template 2 leftmost + `first(t+1)-1` |
+| [33](https://leetcode.com/problems/search-in-rotated-sorted-array/) | Search in Rotated Sorted Array | Medium | Identify sorted half first |
+| [153](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/) | Find Minimum in Rotated Array | Medium | First True: `nums[mid] < nums[hi]` |
+| [162](https://leetcode.com/problems/find-peak-element/) | Find Peak Element | Medium | Slope direction |
+| [852](https://leetcode.com/problems/peak-index-in-a-mountain-array/) | Peak Index in Mountain Array | Medium | Same slope technique |
+| [875](https://leetcode.com/problems/koko-eating-bananas/) | Koko Eating Bananas | Medium | Binary search on answer |
+| [1011](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/) | Capacity to Ship Packages | Medium | Binary search on answer |
+| [410](https://leetcode.com/problems/split-array-largest-sum/) | Split Array Largest Sum | Hard | Binary search on answer |
+| [1482](https://leetcode.com/problems/minimum-number-of-days-to-make-m-bouquets/) | Min Days to Make m Bouquets | Medium | Binary search on answer |
+| [74](https://leetcode.com/problems/search-a-2d-matrix/) | Search a 2D Matrix | Medium | Flatten 2D index to 1D |

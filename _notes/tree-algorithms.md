@@ -340,19 +340,76 @@ def deserialize(data):
 
 ---
 
+## 14. Segment Tree — range sum queries (LC 307)
+
+```python
+# Build once in O(n); point update and range query both O(log n).
+# tree[1] is the root; children of tree[i] are tree[2i] and tree[2i+1].
+
+class SegmentTree:
+    def __init__(self, nums):
+        self.n    = len(nums)
+        self.tree = [0] * (2 * self.n)
+        self._build(nums)
+
+    def _build(self, nums):
+        # Load leaves
+        for i, v in enumerate(nums):
+            self.tree[self.n + i] = v
+        # Build internal nodes bottom-up
+        for i in range(self.n - 1, 0, -1):
+            self.tree[i] = self.tree[2 * i] + self.tree[2 * i + 1]
+
+    def update(self, index, val):
+        pos = index + self.n
+        self.tree[pos] = val
+        while pos > 1:
+            pos >>= 1
+            self.tree[pos] = self.tree[2 * pos] + self.tree[2 * pos + 1]
+
+    def query(self, left, right):
+        """Sum of nums[left..right] inclusive."""
+        res = 0
+        lo, hi = left + self.n, right + self.n + 1
+        while lo < hi:
+            if lo & 1:          # lo is a right child — include and move up
+                res += self.tree[lo]; lo += 1
+            if hi & 1:          # hi is a right child — include left sibling
+                hi -= 1; res += self.tree[hi]
+            lo >>= 1; hi >>= 1
+        return res
+
+# st = SegmentTree([1,3,5,7,9])
+# st.query(1, 3)  → 15  (3+5+7)
+# st.update(2, 10)
+# st.query(1, 3)  → 20  (3+10+7)
+```
+
+---
+
 ## Complexity
 
-| Algorithm | Time | Space |
-|---|---|---|
-| DFS traversal | O(n) | O(h) stack |
-| BFS level order | O(n) | O(w) max width |
-| LCA | O(n) | O(h) |
-| Validate BST | O(n) | O(h) |
-| Path sum | O(n) | O(h) |
-| Vertical order | O(n) | O(n) |
-| Serialize | O(n) | O(n) |
+> **Key insight:** Almost every tree algorithm is O(n) — you touch each node once. The exception is the segment tree, where individual update/query is O(log n) after an O(n) build.
 
-h = tree height (O(log n) balanced, O(n) worst)
+| Algorithm | Time | Space | Notes |
+|---|---|---|---|
+| DFS (recursive) | **O(n)** | O(h) | h = recursion depth |
+| DFS (iterative, visited-flag) | **O(n)** | O(h) | Explicit stack, same depth |
+| BFS level order | **O(n)** | O(w) | w = max nodes at one level (up to n/2) |
+| DFS level order (top-down) | **O(n)** | O(h) | Avoids queue; same result as BFS |
+| Right side view | **O(n)** | O(h) | DFS right-first; first visit per depth |
+| Vertical order traversal | **O(n)** | O(n) | BFS + column map |
+| LCA (LC 236) | **O(n)** | O(h) | Single post-order pass |
+| Validate BST | **O(n)** | O(h) | Bounds passed top-down |
+| Path sum / backtracking | **O(n)** | O(h) | O(n·h) if copying all paths |
+| Sum root-to-leaf numbers | **O(n)** | O(h) | Running total × 10 + val |
+| Max path sum | **O(n)** | O(h) | `self.ans` updated at each node |
+| Serialize / deserialize | **O(n)** | O(n) | BFS queue + comma-joined string |
+| Segment tree — build | **O(n)** | O(n) | 2n-size array, leaves then internals |
+| Segment tree — update | **O(log n)** | O(1) | Propagate up from leaf to root |
+| Segment tree — range query | **O(log n)** | O(1) | Merge partial segments bottom-up |
+
+**Variable key:** *n* = number of nodes · *h* = tree height (O(log n) balanced, O(n) skewed) · *w* = max width of a level
 
 ---
 
@@ -370,7 +427,23 @@ h = tree height (O(log n) balanced, O(n) worst)
 - **`total * 10 + val`** — sum numbers, encode paths as integers
 - **`self.ans` global** — diameter, max path sum (path bends → can't propagate up)
 - **Serialize BFS** — clone tree, transmit tree structure
+- **Segment tree** — point update + range aggregate (sum/min/max) in O(log n)
 
-## Sample problems
+## Problems to try
 
-<!-- add LeetCode problems here as you solve them -->
+| # | Problem | Difficulty | Pattern |
+|---|---|---|---|
+| [104](https://leetcode.com/problems/maximum-depth-of-binary-tree/) | Maximum Depth of Binary Tree | Easy | DFS post-order |
+| [226](https://leetcode.com/problems/invert-binary-tree/) | Invert Binary Tree | Easy | DFS pre-order (swap then recurse) |
+| [102](https://leetcode.com/problems/binary-tree-level-order-traversal/) | Binary Tree Level Order Traversal | Medium | BFS `len(queue)` snapshot |
+| [103](https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/) | Zigzag Level Order Traversal | Medium | BFS + alternate append direction |
+| [199](https://leetcode.com/problems/binary-tree-right-side-view/) | Binary Tree Right Side View | Medium | DFS right-first |
+| [987](https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/) | Vertical Order Traversal | Hard | BFS + horizontal distance |
+| [236](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/) | Lowest Common Ancestor | Medium | Post-order: both sides return node |
+| [98](https://leetcode.com/problems/validate-binary-search-tree/) | Validate Binary Search Tree | Medium | Bounds passed top-down |
+| [113](https://leetcode.com/problems/path-sum-ii/) | Path Sum II | Medium | DFS + path backtracking |
+| [129](https://leetcode.com/problems/sum-root-to-leaf-numbers/) | Sum Root to Leaf Numbers | Medium | `total*10 + val` |
+| [124](https://leetcode.com/problems/binary-tree-maximum-path-sum/) | Binary Tree Maximum Path Sum | Hard | `self.ans` global; left/right clamp at 0 |
+| [297](https://leetcode.com/problems/serialize-and-deserialize-binary-tree/) | Serialize and Deserialize Binary Tree | Hard | BFS serialize; queue-based rebuild |
+| [307](https://leetcode.com/problems/range-sum-query-mutable/) | Range Sum Query — Mutable | Medium | Segment tree |
+| [543](https://leetcode.com/problems/diameter-of-binary-tree/) | Diameter of Binary Tree | Easy | `self.ans`; return max arm length |
