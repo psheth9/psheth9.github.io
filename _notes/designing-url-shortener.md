@@ -2,6 +2,7 @@
 title: "Designing a URL shortener at scale"
 date: 2026-05-11
 category: system-design
+difficulty: medium
 summary: "The classic system design question. The interesting parts are the ID scheme and the read path, not the SQL schema."
 ---
 

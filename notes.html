@@ -24,7 +24,11 @@ description: Personal notes — algorithms practiced and system design case stud
 </div>
 
 {% if site.notes.size > 0 %}
-  {% assign sorted_notes = site.notes | sort: 'date' | reverse %}
+  {% assign easy_notes   = site.notes | where: "difficulty", "easy"      | sort: "title" %}
+  {% assign medium_notes = site.notes | where: "difficulty", "medium"     | sort: "title" %}
+  {% assign hard_notes   = site.notes | where: "difficulty", "hard"       | sort: "title" %}
+  {% assign ref_notes    = site.notes | where: "difficulty", "reference"  | sort: "title" %}
+  {% assign sorted_notes = easy_notes | concat: medium_notes | concat: hard_notes | concat: ref_notes %}
   <div class="notes-grid" id="notes-grid">
     {% for note in sorted_notes %}
       <a class="note-card note-card--{% if note.category == 'graph' %}graph{% elsif note.category == 'tree' %}tree{% elsif note.category == 'python' %}python{% elsif note.category == 'system-design' %}sysd{% else %}algo{% endif %}"

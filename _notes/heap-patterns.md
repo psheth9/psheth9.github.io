@@ -193,6 +193,54 @@ def topKFrequent_heap(nums, k):
 
 ---
 
+## 7. Tournament tree — repeated best extraction (O(log n) per delete)
+
+```python
+# A tournament tree is a complete binary tree where each internal node = max of children.
+# Use when you need to extract the best element repeatedly, with O(log n) per deletion
+# instead of O(n) for a sorted array or O(n log n) for re-sorting.
+# Also the structure behind external merge sort (merge K sorted runs).
+
+import heapq
+
+class TournamentTree:
+    def __init__(self, values):
+        n = len(values)
+        # Find next power of 2 for leaf layer size
+        self.size = 1
+        while self.size < n:
+            self.size <<= 1
+        self.tree = [float('-inf')] * (2 * self.size)
+        for i, v in enumerate(values):
+            self.tree[self.size + i] = v
+        for i in range(self.size - 1, 0, -1):
+            self.tree[i] = max(self.tree[2 * i], self.tree[2 * i + 1])
+
+    def pop_max(self):
+        """Remove and return the maximum value. O(log n)."""
+        if self.tree[1] == float('-inf'):
+            return None
+        winner = self.tree[1]
+        # Find the leaf that holds the winner
+        i = 1
+        while i < self.size:
+            if self.tree[2 * i] == winner:
+                i = 2 * i
+            else:
+                i = 2 * i + 1
+        self.tree[i] = float('-inf')    # remove
+        i >>= 1
+        while i >= 1:                   # re-run tournament up to root
+            self.tree[i] = max(self.tree[2 * i], self.tree[2 * i + 1])
+            i >>= 1
+        return winner
+
+# tt = TournamentTree([3, 1, 4, 1, 5, 9, 2, 6])
+# tt.pop_max() → 9, tt.pop_max() → 6, tt.pop_max() → 5 ...
+```
+
+---
+
 ## Complexity
 
 > **Key insight:** A size-K heap answers "K largest seen so far" in O(n log K) total — far better than sorting at O(n log n) when K ≪ n. QuickSelect beats both at O(n) average for a one-shot query.
@@ -205,6 +253,8 @@ def topKFrequent_heap(nums, k):
 | Merge K sorted lists | **O(n log K)** | O(K) | n = total nodes; K = list count |
 | K-th smallest in matrix | **O(K log n)** | O(n) | n = matrix side length |
 | Top K frequent | **O(n log K)** | O(n) | Counter + size-K heap |
+| Tournament tree — build | **O(n)** | O(n) | Fill leaves; propagate up |
+| Tournament tree — pop max | **O(log n)** | O(1) | Remove leaf; re-run to root |
 
 ---
 
@@ -228,3 +278,4 @@ def topKFrequent_heap(nums, k):
 | [378](https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/) | K-th Smallest in Matrix | Medium | Heap per row |
 | [373](https://leetcode.com/problems/find-k-pairs-with-smallest-sums/) | K Pairs with Smallest Sums | Medium | Heap of (sum, i, j) pairs |
 | [480](https://leetcode.com/problems/sliding-window-median/) | Sliding Window Median | Hard | Two heaps with lazy deletion |
+| [23](https://leetcode.com/problems/merge-k-sorted-lists/) | Merge K Sorted Lists | Hard | Tournament tree / min-heap |

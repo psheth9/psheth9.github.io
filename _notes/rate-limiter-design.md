@@ -2,6 +2,7 @@
 title: "Distributed rate limiting — token bucket, sliding window, and the trade-offs"
 date: 2026-05-09
 category: system-design
+difficulty: medium
 summary: "Four algorithms, four sets of trade-offs. What I'd choose and why."
 ---
 
