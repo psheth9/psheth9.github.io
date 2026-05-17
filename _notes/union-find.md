@@ -1,7 +1,7 @@
 ---
 title: "Union-Find — Disjoint Set Union (DSU)"
 date: 2026-05-16
-category: algo
+category: graph
 difficulty: medium
 summary: "Near O(1) per op with path compression + union by rank. Three variants: standard class, 2D grid (flat ID mapping), and earliest-all-connected detection."
 problem: "Given n nodes and a list of edges, find the number of connected components."

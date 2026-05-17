@@ -1,7 +1,7 @@
 ---
 title: "Iterative inorder traversal — no recursion"
 date: 2026-05-15
-category: algo
+category: tree
 difficulty: medium
 summary: "Inorder traversal without recursion using an explicit stack and a visited flag. Avoids stack overflow on skewed trees and generalises cleanly to pre/postorder."
 problem: "Return the inorder traversal of a binary tree's nodes without using recursion."

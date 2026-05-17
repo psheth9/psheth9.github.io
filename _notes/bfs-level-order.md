@@ -1,7 +1,7 @@
 ---
 title: "BFS — Level-order traversal"
 date: 2026-05-15
-category: algo
+category: graph
 difficulty: easy
 summary: "Process a binary tree level by level using a deque. Snapshot len(queue) at the start of each level so you only consume nodes that were already there."
 problem: "Given a binary tree, return the average value of nodes at each level."

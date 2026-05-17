@@ -16,7 +16,10 @@ description: Personal notes — algorithms practiced and system design case stud
 
 <div class="tag-filter" role="tablist" aria-label="Filter notes by category">
   <button class="active" data-filter="all">all</button>
+  <button data-filter="graph">graph</button>
+  <button data-filter="tree">tree</button>
   <button data-filter="algo">algorithms</button>
+  <button data-filter="python">python</button>
   <button data-filter="system-design">system design</button>
 </div>
 
@@ -32,10 +35,12 @@ description: Personal notes — algorithms practiced and system design case stud
             <p class="entry__excerpt">{{ note.summary }}</p>
           {% endif %}
         </div>
-        <span class="entry__tag entry__tag--{% if note.category == 'algo' %}algo{% elsif note.category == 'system-design' %}sysd{% else %}blog{% endif %}">
-          {%- if note.category == 'algo' -%}algo
+        <span class="entry__tag entry__tag--{% if note.category == 'graph' %}graph{% elsif note.category == 'tree' %}tree{% elsif note.category == 'python' %}python{% elsif note.category == 'system-design' %}sysd{% else %}algo{% endif %}">
+          {%- if note.category == 'graph' -%}graph
+          {%- elsif note.category == 'tree' -%}tree
+          {%- elsif note.category == 'python' -%}python
           {%- elsif note.category == 'system-design' -%}sys design
-          {%- else -%}{{ note.category }}{%- endif -%}
+          {%- else -%}algo{%- endif -%}
         </span>
       </li>
     {% endfor %}

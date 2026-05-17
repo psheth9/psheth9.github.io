@@ -1,7 +1,7 @@
 ---
 title: "Graph Algorithms — Templates & Patterns"
 date: 2026-05-16
-category: algo
+category: graph
 difficulty: medium
 summary: "BFS/DFS templates, Dijkstra, topological sort (DFS + Kahn's), cycle detection, bipartite check, connected components, grid traversal, word search, and abstract graph BFS."
 problem: "Core graph algorithm templates covering traversal, shortest paths, ordering, and connectivity."

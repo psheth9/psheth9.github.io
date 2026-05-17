@@ -1,7 +1,7 @@
 ---
 title: "Python Best Practices — Competitive / Interview Cheatsheet"
 date: 2026-05-16
-category: algo
+category: python
 difficulty: reference
 summary: "Comprehensive snippets covering sorted/cmp, heapq, deque, defaultdict, Counter, SortedDict, dataclass, walrus operator, division gotchas, and backtracking duplicate pruning."
 problem: "One-stop reference for Python patterns that come up repeatedly in coding problems and system design implementations."
