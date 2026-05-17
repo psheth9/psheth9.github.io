@@ -3,9 +3,97 @@ title: "Python Best Practices — Competitive / Interview Cheatsheet"
 date: 2026-05-16
 category: python
 difficulty: reference
-summary: "Comprehensive snippets covering sorted/cmp, heapq, deque, defaultdict, Counter, SortedDict, dataclass, walrus operator, division gotchas, and backtracking duplicate pruning."
+summary: "Comprehensive snippets covering custom sort keys, class label sorting, heapq, deque, defaultdict, Counter, SortedDict, dataclass, walrus operator, division gotchas, and backtracking duplicate pruning."
 problem: "One-stop reference for Python patterns that come up repeatedly in coding problems and system design implementations."
 ---
+
+## Sorting — custom keys and class labels
+
+```python
+from functools import cmp_to_key
+from dataclasses import dataclass
+
+# ── Basic: ascending / descending ─────────────
+nums = [1, 2, -4, 5]
+nums.sort()                      # ascending in-place
+nums.sort(reverse=True)          # descending in-place
+desc = sorted(nums, reverse=True)  # returns new list
+
+# ── Multi-key: negate for descending on one field ──
+# Rule: + = ascending, - = descending
+lst = [(1, 'aa'), (2, 'bb'), (1, 'a'), (3, 'cc')]
+lst.sort(key=lambda x: (-x[0], x[1]))   # desc by first, then asc lexi
+
+# ── Sort class instances by attribute ─────────
+@dataclass
+class Task:
+    id: int
+    deadline: int
+    profit: int
+
+tasks = [Task(1,3,10), Task(2,2,10), Task(3,6,17)]
+
+# Sort by descending profit, then descending deadline
+tasks.sort(key=lambda t: (-t.profit, -t.deadline))
+
+# Multi-field key function (cleaner for many fields)
+def task_key(t):
+    return -t.profit, -t.deadline
+
+tasks.sort(key=task_key)
+
+# ── __lt__ on class (used by heapq and sort) ──
+class Element:
+    def __init__(self, count, word):
+        self.count = count
+        self.word  = word
+
+    def __lt__(self, other):
+        if self.count == other.count:
+            return self.word < other.word   # lexi asc when count ties
+        return self.count < other.count     # count asc overall
+
+elements = [Element(2,'bb'), Element(1,'aa'), Element(1,'ab')]
+elements.sort()   # uses __lt__
+
+# ── Sort dict by value / by key ───────────────
+d = {1: 2, 3: 4, 4: 3, 2: 1}
+
+by_value = sorted(d.items(), key=lambda kv: kv[1])   # → list of (k,v) tuples
+by_key   = sorted(d.items(), key=lambda kv: kv[0])
+
+# Descending by value
+by_value_desc = sorted(d.items(), key=lambda kv: -kv[1])
+
+# ── Sort by custom priority / alien order ─────
+# Priority dict: letter → rank
+order = ['b', 'a', 'c']
+priority = {ch: i for i, ch in enumerate(order)}
+words = ['cat', 'bat', 'abc']
+words.sort(key=lambda w: [priority.get(c, float('inf')) for c in w])
+
+# ── Sort words by length ──────────────────────
+words = ['fds', 'a', 'sdfjsaflk']
+words.sort(key=len)                  # ascending length
+words.sort(key=lambda w: -len(w))    # descending length
+
+# ── Sort nearly-sorted array (k-sorted) ───────
+# Each element is at most k positions from its sorted position → O(n log k)
+import heapq
+
+def sort_k_sorted(nums, k):
+    heap = nums[:k + 1]
+    heapq.heapify(heap)
+    idx = 0
+    for j in range(k + 1, len(nums)):
+        nums[idx] = heapq.heappop(heap)
+        heapq.heappush(heap, nums[j])
+        idx += 1
+    while heap:
+        nums[idx] = heapq.heappop(heap)
+        idx += 1
+    return nums
+```
 
 ## sorted() with key and cmp
 
