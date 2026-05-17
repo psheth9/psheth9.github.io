@@ -352,6 +352,76 @@ pre code { background: transparent; padding: 0; }
 }
 .profile-card__awards li::before { content: "★ "; color: var(--accent-gold); }
 
+/* ----- Mentoring / MentorCruise booking widget ----- */
+.mentoring-widget {
+  background: linear-gradient(140deg, #0d2218 0%, #0b1d2e 100%);
+  border: 1px solid rgba(93, 202, 165, 0.22);
+  border-radius: var(--radius-lg);
+  padding: 16px 16px 18px;
+}
+.mentoring-widget__live {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: #5dcaa5;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.mentoring-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #5dcaa5;
+  box-shadow: 0 0 0 0 rgba(93,202,165,0.5);
+  animation: mentoring-pulse 2.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes mentoring-pulse {
+  0%   { box-shadow: 0 0 0 0   rgba(93,202,165,0.5); }
+  65%  { box-shadow: 0 0 0 8px rgba(93,202,165,0);   }
+  100% { box-shadow: 0 0 0 0   rgba(93,202,165,0);   }
+}
+.mentoring-widget__hed {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 700;
+  color: #f0f0e8;
+  margin: 0 0 5px;
+  line-height: 1.2;
+}
+.mentoring-widget__sub {
+  font-size: 11px;
+  color: rgba(240,240,232,0.52);
+  margin: 0 0 14px;
+  line-height: 1.55;
+}
+.mentoring-widget__btn {
+  display: block;
+  text-align: center;
+  background: #27ae80;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border-bottom: none;
+  transition: background 0.15s, transform 0.12s, box-shadow 0.15s;
+}
+.mentoring-widget__btn:hover {
+  background: #1d9a70;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 18px rgba(39,174,128,0.38);
+  color: #fff;
+  text-decoration: none;
+  border-bottom: none;
+}
+
 /* ----- Right column sections ----- */
 .section { margin-bottom: 32px; }
 .section__label {
