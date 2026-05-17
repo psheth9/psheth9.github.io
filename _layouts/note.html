@@ -4,7 +4,7 @@ layout: default
 
 {% include notes-gate.html %}
 
-<div class="note-page" data-protected hidden>
+<div class="note-page note-page--terminal" data-protected hidden>
 
   <!-- Header card -->
   <header class="note-header">
@@ -38,7 +38,7 @@ layout: default
     </div>
   {% endif %}
 
-  <!-- Note content (sections wrapped into cards by JS below) -->
+  <!-- Note content -->
   <div class="prose note-prose">
     {{ content }}
   </div>
@@ -51,18 +51,21 @@ layout: default
 
 <script>
 (function () {
+  /* Force dark mode for terminal note pages */
+  document.documentElement.setAttribute('data-theme', 'dark');
+
   var prose = document.querySelector('.note-prose');
   if (!prose) return;
 
-  /* ── 1. Wrap content between h2 headings into card sections ── */
-  function getIcon(text) {
-    var t = text.toLowerCase();
-    if (t.indexOf('complexity') !== -1) return '⚡';
-    if (t.indexOf('problem') !== -1)    return '★';
-    if (t.indexOf('when') !== -1 || t.indexOf('shows up') !== -1) return '→';
-    if (t.indexOf('key rule') !== -1 || t.indexOf('invariant') !== -1) return '◆';
-    if (t.indexOf('sample') !== -1)     return '★';
-    return '◈';
+  /* ── 1. Wrap h2 sections into terminal-style blocks ── */
+  function formatCmd(text) {
+    return text
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, ' ')
+      .trim()
+      .replace(/\s+/g, '_')
+      .replace(/_+/g, '_')
+      .substring(0, 32);
   }
 
   function getSectionClass(text) {
@@ -77,16 +80,20 @@ layout: default
   var currentBody = null;
 
   children.forEach(function (el) {
-    if (el.nodeType !== 1) return; // skip text nodes
+    if (el.nodeType !== 1) return;
 
     if (el.tagName === 'H2') {
       var section = document.createElement('div');
       var extra = getSectionClass(el.textContent);
       section.className = 'note-section' + (extra ? ' ' + extra : '');
 
+      /* Build: $ command_name ──────────── */
       var label = document.createElement('div');
       label.className = 'note-section__label';
-      label.textContent = getIcon(el.textContent) + '  ' + el.textContent;
+      label.innerHTML =
+        '<span class="np-dollar">$</span>' +
+        '<span class="np-cmd"> ' + formatCmd(el.textContent) + '</span>' +
+        '<span class="np-line"></span>';
 
       var body = document.createElement('div');
       body.className = 'note-section__body';
@@ -102,7 +109,7 @@ layout: default
     }
   });
 
-  /* ── 2. Inject difficulty badges ── */
+  /* ── 2. Difficulty badges ── */
   document.querySelectorAll('.note-prose table td').forEach(function (td) {
     var text = td.textContent.trim();
     if (text === 'Easy' || text === 'Medium' || text === 'Hard') {
@@ -114,7 +121,7 @@ layout: default
     }
   });
 
-  /* ── 3. Style LC problem number links (1st col in Problems sections) ── */
+  /* ── 3. LC problem number badges ── */
   document.querySelectorAll('.note-section--problems .note-section__body tbody td:first-child a').forEach(function (a) {
     a.className = 'lc-num';
   });
