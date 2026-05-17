@@ -30,7 +30,7 @@ description: Senior Software Engineer at Meta. I build at the intersection of Ad
       <div><dt>LOC</dt>   <dd>San Francisco, CA</dd></div>
       <div><dt>XP</dt>    <dd>10+ years · 6 companies</dd></div>
       <div><dt>FOCUS</dt> <dd>Ads · ML/LLM · distsys</dd></div>
-      <div><dt>STACK</dt> <dd>Python · Go · C++ · Java</dd></div>
+      <div><dt>STACK</dt> <dd>C++ · Python · Go · Java</dd></div>
       <div><dt>EDU</dt>   <dd>ASU MS · 4.0 GPA</dd></div>
     </dl>
 
@@ -152,10 +152,11 @@ description: Senior Software Engineer at Meta. I build at the intersection of Ad
       <div class="featured">
         <h3>Frequency Capping Platform · Meta Ads</h3>
         <p>
-          Policy-driven, low-latency capping for Dynamic Ads. Combines onsite engagement
-          with offsite conversions via batch and near-real-time streaming. Integrated into
-          the final-stage Ads ranking stack without impacting serving SLAs.
-          <span class="featured__more">$7M+ iRev delivered →</span>
+          Low-latency, high-throughput signal aggregation integrated into Meta's final-stage
+          Dynamic Ads ranking stack. Processes real-time impression and offsite conversion
+          signals across batch and streaming pipelines. Policy-driven per-user, per-ad, and
+          per-campaign caps with dynamic tuning — deployed without impacting serving SLAs.
+          <span class="featured__more">$7M+ annualized iRev delivered →</span>
         </p>
       </div>
     </section>
@@ -169,8 +170,8 @@ description: Senior Software Engineer at Meta. I build at the intersection of Ad
           <p>Internal AI agent using RAG over logs/metrics + tool use to cut root-cause time for Ads delivery issues.</p>
         </div>
         <div class="built-card">
-          <h4>State Machine as a Service</h4>
-          <p>JSON-configured workflow engine at Robinhood. 30+ flows; new launches 3–5× faster.</p>
+          <h4>Financial Transaction Orchestration · Robinhood</h4>
+          <p>High-reliability State Machine as a Service for regulated financial workflows. 30+ flows, guaranteed state consistency, atomic DB/RPC side effects. Launches 3–5× faster.</p>
         </div>
         <div class="built-card">
           <h4>Stellar RPC service</h4>
@@ -193,11 +194,10 @@ description: Senior Software Engineer at Meta. I build at the intersection of Ad
           <h3>Meta</h3>
           <p class="role__title">Senior Software Engineer · Dynamic Ads</p>
           <ul>
-            <li>Led architecture and development of a scalable frequency capping platform for Dynamic Ads within Meta's Ads recommendation stack, combining onsite engagement with offsite conversions via batch and near-real-time streaming pipelines.</li>
-            <li>Built a generic, policy-driven framework supporting per-user, per-ad, and per-campaign caps with dynamic tuning based on objective, cohorts, and signal quality.</li>
-            <li>Integrated capping into the final-stage Dynamic Ads recommendation stack as a low-latency ranking and delivery-control feature without impacting serving SLAs.</li>
-            <li>Delivered <strong>$7M+ annualized iRev</strong> by reducing inefficient repeat exposure and improving delivery quality.</li>
-            <li>Built an internal LLM-powered AI agent for Ads debugging — retrieval over logs/metrics, prompt orchestration, and tool use to accelerate root-cause analysis.</li>
+            <li>Engineered a low-latency, high-throughput frequency capping platform integrated into Meta's final-stage Dynamic Ads ranking stack — processing real-time impression and offsite conversion signals across batch and near-real-time streaming pipelines at massive scale.</li>
+            <li>Designed a policy-driven signal aggregation framework supporting per-user, per-ad, and per-campaign frequency control with dynamic tuning across audience cohorts and signal quality tiers; deployed as a low-latency ranking feature within core ads serving infrastructure without impacting SLAs.</li>
+            <li>Delivered <strong>$7M+ annualized iRev</strong> by applying quantitative analysis of exposure-frequency curves to calibrate cap thresholds and reduce delivery inefficiency at scale.</li>
+            <li>Architected an LLM-powered internal diagnostic agent using retrieval over operational logs/metrics and structured tool use to accelerate root-cause analysis for ads delivery issues.</li>
           </ul>
         </div>
       </article>
@@ -221,9 +221,9 @@ description: Senior Software Engineer at Meta. I build at the intersection of Ad
           <h3>Robinhood</h3>
           <p class="role__title">Senior Software Engineer</p>
           <ul>
-            <li>Architected and implemented a State Machine as a Service platform (Python, Go, Redis, PostgreSQL, AWS) — engineers deploy complex product flows via JSON in ~10 minutes instead of multi-week custom builds.</li>
-            <li>Built the core execution engine, transition framework, caching layer, and durable state store for UI-driven workflows with backend DB/RPC side effects — cutting duplicated product-flow engineering by <strong>~42%</strong>.</li>
-            <li>Drove adoption across <strong>30+ product flows</strong> — crypto asset launches, onboarding, eligibility checks, multi-step transaction experiences — accelerating new product launches <strong>3–5×</strong>.</li>
+            <li>Designed and implemented a high-reliability State Machine as a Service platform for financial transaction orchestration (Python, Go, Redis, PostgreSQL, AWS) — engineers deploy complex multi-step transaction flows via JSON config in ~10 minutes vs. multi-week custom builds, with guaranteed state consistency and atomic DB/RPC side effects.</li>
+            <li>Built the core execution engine, transition framework, low-latency caching layer, and durable state store for regulated financial workflows — cutting duplicated engineering effort by <strong>~42%</strong>.</li>
+            <li>Drove adoption across <strong>30+ financial product flows</strong> — crypto asset launches, onboarding, eligibility checks, multi-step transaction experiences — standardizing orchestration for regulated products and accelerating launches <strong>3–5×</strong>.</li>
           </ul>
         </div>
       </article>
