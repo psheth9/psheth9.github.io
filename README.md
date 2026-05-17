@@ -170,30 +170,6 @@ Open `index.html`, find the "What people I've worked with say" section. Each rec
 
 ---
 
-## Password-protecting the notes and blog sections
-
-The `/notes/` and `/blog/` indexes and every individual note/post page are gated by a password prompt. One password unlocks both sections for the rest of the browser session (cleared when the tab closes).
-
-**Current password:** `nazgul-psh`
-
-### Change the password
-
-Open `assets/js/notes-gate.js` and replace the `PASSWORD_HASH` constant with the SHA-256 hash of your new password.
-
-Generate a hash from a terminal:
-
-```bash
-echo -n "your-new-password" | shasum -a 256
-```
-
-Or in any browser's DevTools console:
-
-```js
-crypto.subtle.digest('SHA-256', new TextEncoder().encode('your-new-password'))
-  .then(b => console.log([...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')))
-```
-
-Paste the resulting 64-character hex string into `PASSWORD_HASH`.
 
 ### Important — this is a SOFT gate
 
