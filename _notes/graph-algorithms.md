@@ -3,7 +3,7 @@ title: "Graph Algorithms — Templates & Patterns"
 date: 2026-05-16
 category: algo
 difficulty: medium
-summary: "BFS/DFS templates, Dijkstra, topological sort (DFS + Kahn's), Union-Find with path compression, cycle detection, bipartite check, connected components, and grid traversal patterns."
+summary: "BFS/DFS templates, Dijkstra, topological sort (DFS + Kahn's), cycle detection, bipartite check, connected components, grid traversal, word search, and abstract graph BFS."
 problem: "Core graph algorithm templates covering traversal, shortest paths, ordering, and connectivity."
 ---
 
@@ -348,106 +348,6 @@ def is_bipartite_dfs(graph):
     return all(color[i] != 0 or dfs(i, 1) for i in range(len(graph)))
 ```
 
-## Union-Find (DSU) — path compression + union by rank
-
-```python
-class UnionFind:
-    def __init__(self, size):
-        self.parent = list(range(size))
-        self.rank   = [1] * size
-        self.components = size
-
-    def find(self, x):
-        if x != self.parent[x]:
-            self.parent[x] = self.find(self.parent[x])   # path compression
-        return self.parent[x]
-
-    def union(self, x, y):
-        rx, ry = self.find(x), self.find(y)
-        if rx == ry:
-            return False   # already connected
-        if self.rank[rx] < self.rank[ry]:
-            rx, ry = ry, rx
-        self.parent[ry] = rx
-        if self.rank[rx] == self.rank[ry]:
-            self.rank[rx] += 1
-        self.components -= 1
-        return True
-
-    def connected(self, x, y):
-        return self.find(x) == self.find(y)
-
-    def count_islands(self):
-        return len({self.find(i) for i in range(len(self.parent))})
-```
-
-## Union-Find on 2D grid (row,col → flat ID)
-
-```python
-class GridUnionFind:
-    def __init__(self, m, n):
-        self.n = n
-        self.parent = [-1] * (m * n)   # -1 = not yet a land cell
-        self.size   = [0]  * (m * n)
-
-    def get_id(self, r, c):
-        return self.n * r + c          # flatten 2D → 1D
-
-    def activate(self, r, c):
-        i = self.get_id(r, c)
-        self.parent[i] = i
-        self.size[i]   = 1
-
-    def find(self, x):
-        if self.parent[x] != x:
-            self.parent[x] = self.find(self.parent[x])
-        return self.parent[x]
-
-    def union(self, r1, c1, r2, c2):
-        a, b = self.get_id(r1, c1), self.get_id(r2, c2)
-        ra, rb = self.find(a), self.find(b)
-        if ra == rb: return
-        if self.size[ra] < self.size[rb]: ra, rb = rb, ra
-        self.parent[rb] = ra
-        self.size[ra]  += self.size[rb]
-
-    def count_islands(self):
-        return len({self.find(i) for i in range(len(self.parent)) if self.parent[i] >= 0})
-
-# LC 305 — Number of Islands II (dynamic land additions)
-def numIslands2(m, n, positions):
-    uf   = GridUnionFind(m, n)
-    grid = [[0] * n for _ in range(m)]
-    dirs = [[1,0],[-1,0],[0,1],[0,-1]]
-    result = []
-
-    for r, c in positions:
-        grid[r][c] = 1
-        uf.activate(r, c)
-        for dr, dc in dirs:
-            nr, nc = r + dr, c + dc
-            if 0 <= nr < m and 0 <= nc < n and grid[nr][nc] == 1:
-                uf.union(r, c, nr, nc)
-        result.append(uf.count_islands())
-    return result
-```
-
-## Union-Find — detect when all nodes connected (earliest acquisition)
-
-```python
-# Union returns True the moment all nodes become one component.
-# Sort logs by timestamp first, then union until component count hits 1.
-
-def earliestAcq(logs, n):
-    uf = UnionFind(n)          # from the template above
-    logs.sort(key=lambda x: x[0])
-    for time, x, y in logs:
-        uf.union(x, y)
-        if uf.components == 1:
-            return time
-    return -1
-```
-
 ## Word search — DFS with backtracking on a grid
 
 ```python
@@ -559,20 +459,16 @@ def getDirections(root, startValue, destValue):
 | BFS / DFS | O(V + E) | O(V) |
 | Dijkstra (min-heap) | O((V + E) log V) | O(V) |
 | Topo sort (Kahn's) | O(V + E) | O(V) |
-| Union-Find (amortized) | O(α(n)) per op | O(V) |
 | Bipartite check | O(V + E) | O(V) |
 
 ## When each pattern shows up
 
 - **Kahn's topo** — course schedule, task dependencies, detect cycle in directed graph
 - **Dijkstra** — network delay, cheapest flights, path with min cost
-- **Union-Find** — number of islands, earliest connected, redundant connection
 - **Bipartite** — possible bipartition, is graph two-colorable
 - **3-state DFS** — cycle in directed graph, valid tree check
 - **Grid BFS** — walls and gates, rotting oranges, shortest path in grid
 - **Knight moves BFS** — min-move problems on a board
-- **2D grid Union-Find** — number of islands II (dynamic land additions)
-- **Union earliest-connected** — friendship acquisition, network connection problems
 - **Word search DFS** — board word search, path existence with backtracking
 - **Abstract graph BFS** — bus routes, minimum route changes, grouped-stop problems
 - **Tree as undirected graph** — path directions between nodes, LCA-free path finding
