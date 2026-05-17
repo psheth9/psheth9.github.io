@@ -340,6 +340,53 @@ def deserialize(data):
 
 ---
 
+## 14. Segment Tree — range sum queries (LC 307)
+
+```python
+# Build once in O(n); point update and range query both O(log n).
+# tree[1] is the root; children of tree[i] are tree[2i] and tree[2i+1].
+
+class SegmentTree:
+    def __init__(self, nums):
+        self.n    = len(nums)
+        self.tree = [0] * (2 * self.n)
+        self._build(nums)
+
+    def _build(self, nums):
+        # Load leaves
+        for i, v in enumerate(nums):
+            self.tree[self.n + i] = v
+        # Build internal nodes bottom-up
+        for i in range(self.n - 1, 0, -1):
+            self.tree[i] = self.tree[2 * i] + self.tree[2 * i + 1]
+
+    def update(self, index, val):
+        pos = index + self.n
+        self.tree[pos] = val
+        while pos > 1:
+            pos >>= 1
+            self.tree[pos] = self.tree[2 * pos] + self.tree[2 * pos + 1]
+
+    def query(self, left, right):
+        """Sum of nums[left..right] inclusive."""
+        res = 0
+        lo, hi = left + self.n, right + self.n + 1
+        while lo < hi:
+            if lo & 1:          # lo is a right child — include and move up
+                res += self.tree[lo]; lo += 1
+            if hi & 1:          # hi is a right child — include left sibling
+                hi -= 1; res += self.tree[hi]
+            lo >>= 1; hi >>= 1
+        return res
+
+# st = SegmentTree([1,3,5,7,9])
+# st.query(1, 3)  → 15  (3+5+7)
+# st.update(2, 10)
+# st.query(1, 3)  → 20  (3+10+7)
+```
+
+---
+
 ## Complexity
 
 | Algorithm | Time | Space |
@@ -351,6 +398,8 @@ def deserialize(data):
 | Path sum | O(n) | O(h) |
 | Vertical order | O(n) | O(n) |
 | Serialize | O(n) | O(n) |
+| Segment tree build | O(n) | O(n) |
+| Segment tree update/query | O(log n) | O(1) |
 
 h = tree height (O(log n) balanced, O(n) worst)
 
@@ -370,6 +419,7 @@ h = tree height (O(log n) balanced, O(n) worst)
 - **`total * 10 + val`** — sum numbers, encode paths as integers
 - **`self.ans` global** — diameter, max path sum (path bends → can't propagate up)
 - **Serialize BFS** — clone tree, transmit tree structure
+- **Segment tree** — point update + range aggregate (sum/min/max) in O(log n)
 
 ## Sample problems
 

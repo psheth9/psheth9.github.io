@@ -387,6 +387,36 @@ def count_bits(n):
     return count
 ```
 
+## DP for bits — count set bits for 0..n (LC 338)
+
+```python
+# dp[i] = dp[i >> 1] + (i & 1)
+# Shift right = same number with last bit dropped.
+# Add 1 if the dropped bit was set.
+
+def countBits(n):
+    dp = [0] * (n + 1)
+    for i in range(1, n + 1):
+        dp[i] = dp[i >> 1] + (i & 1)
+    return dp
+
+# countBits(5) → [0, 1, 1, 2, 1, 2]
+# dp[4] = dp[2] + 0 = 1;  dp[5] = dp[2] + 1 = 2
+```
+
+```python
+# Variant: is power of two?
+def isPowerOfTwo(n):
+    return n > 0 and (n & (n - 1)) == 0
+
+# Variant: single number — XOR all; duplicates cancel
+def singleNumber(nums):
+    result = 0
+    for n in nums:
+        result ^= n
+    return result
+```
+
 ## Char frequency array (ord trick)
 
 ```python
