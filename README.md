@@ -1,6 +1,3 @@
-# pritsheth.com
-
-Personal site for Prit Sheth — Senior SWE at Meta. Built with Jekyll, hosted on GitHub Pages, served from `pritsheth.com`.
 
 ## Pages
 
@@ -205,6 +202,6 @@ The top black tape that says "NOW: Building Dynamic Ads at Meta · San Francisco
 
 ## License
 
-Site content (resume text, blog posts, notes) © Prit Sheth.
+Site content (resume text, blog posts, notes) © Psh
 
 Site code (layouts, CSS) — feel free to copy and adapt.
