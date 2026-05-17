@@ -4,7 +4,7 @@ layout: default
 
 {% include notes-gate.html %}
 
-<div class="note-page note-page--terminal" data-protected hidden>
+<div class="note-page" data-protected hidden>
 
   <!-- Header card -->
   <header class="note-header">
@@ -51,21 +51,17 @@ layout: default
 
 <script>
 (function () {
-  /* Force dark mode for terminal note pages */
-  document.documentElement.setAttribute('data-theme', 'dark');
-
   var prose = document.querySelector('.note-prose');
   if (!prose) return;
 
   /* ── 1. Wrap h2 sections into terminal-style blocks ── */
-  function formatCmd(text) {
-    return text
-      .toLowerCase()
-      .replace(/[^a-z0-9\s]/g, ' ')
-      .trim()
-      .replace(/\s+/g, '_')
-      .replace(/_+/g, '_')
-      .substring(0, 32);
+  function getIcon(text) {
+    var t = text.toLowerCase();
+    if (t.indexOf('complexity') !== -1) return '⚡';
+    if (t.indexOf('problem') !== -1 || t.indexOf('sample') !== -1) return '★';
+    if (t.indexOf('when') !== -1 || t.indexOf('shows up') !== -1) return '→';
+    if (t.indexOf('key rule') !== -1 || t.indexOf('invariant') !== -1) return '◆';
+    return '◈';
   }
 
   function getSectionClass(text) {
@@ -87,13 +83,9 @@ layout: default
       var extra = getSectionClass(el.textContent);
       section.className = 'note-section' + (extra ? ' ' + extra : '');
 
-      /* Build: $ command_name ──────────── */
       var label = document.createElement('div');
       label.className = 'note-section__label';
-      label.innerHTML =
-        '<span class="np-dollar">$</span>' +
-        '<span class="np-cmd"> ' + formatCmd(el.textContent) + '</span>' +
-        '<span class="np-line"></span>';
+      label.textContent = getIcon(el.textContent) + '  ' + el.textContent;
 
       var body = document.createElement('div');
       body.className = 'note-section__body';
