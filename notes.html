@@ -24,27 +24,31 @@ description: Personal notes — algorithms practiced and system design case stud
 </div>
 
 {% if site.notes.size > 0 %}
-  <ul class="entry-list" id="notes-list">
-    {% assign sorted_notes = site.notes | sort: 'date' | reverse %}
+  {% assign sorted_notes = site.notes | sort: 'date' | reverse %}
+  <div class="notes-grid" id="notes-grid">
     {% for note in sorted_notes %}
-      <li class="entry" data-category="{{ note.category }}">
-        <span class="entry__when">{{ note.date | date: "%b %d, %Y" }}</span>
-        <div>
-          <a href="{{ note.url | relative_url }}" class="entry__title">{{ note.title }}</a>
-          {% if note.summary %}
-            <p class="entry__excerpt">{{ note.summary }}</p>
-          {% endif %}
+      <a class="note-card note-card--{% if note.category == 'graph' %}graph{% elsif note.category == 'tree' %}tree{% elsif note.category == 'python' %}python{% elsif note.category == 'system-design' %}sysd{% else %}algo{% endif %}"
+         href="{{ note.url | relative_url }}"
+         data-category="{{ note.category }}">
+        <div class="note-card__badges">
+          <span class="entry__tag entry__tag--{% if note.category == 'graph' %}graph{% elsif note.category == 'tree' %}tree{% elsif note.category == 'python' %}python{% elsif note.category == 'system-design' %}sysd{% else %}algo{% endif %}">
+            {%- if note.category == 'graph' -%}graph
+            {%- elsif note.category == 'tree' -%}tree
+            {%- elsif note.category == 'python' -%}python
+            {%- elsif note.category == 'system-design' -%}sys design
+            {%- else -%}algo{%- endif -%}
+          </span>
+          {%- if note.difficulty -%}
+          <span class="note-diff note-diff--{{ note.difficulty }}">{{ note.difficulty }}</span>
+          {%- endif -%}
         </div>
-        <span class="entry__tag entry__tag--{% if note.category == 'graph' %}graph{% elsif note.category == 'tree' %}tree{% elsif note.category == 'python' %}python{% elsif note.category == 'system-design' %}sysd{% else %}algo{% endif %}">
-          {%- if note.category == 'graph' -%}graph
-          {%- elsif note.category == 'tree' -%}tree
-          {%- elsif note.category == 'python' -%}python
-          {%- elsif note.category == 'system-design' -%}sys design
-          {%- else -%}algo{%- endif -%}
-        </span>
-      </li>
+        <h3 class="note-card__title">{{ note.title }}</h3>
+        {% if note.summary %}
+          <p class="note-card__summary">{{ note.summary }}</p>
+        {% endif %}
+      </a>
     {% endfor %}
-  </ul>
+  </div>
 {% else %}
   <p style="color: var(--text-muted);">No notes yet. Add a Markdown file to <code>_notes/</code> to publish one.</p>
 {% endif %}
@@ -54,17 +58,17 @@ description: Personal notes — algorithms practiced and system design case stud
 <script>
   (function () {
     var buttons = document.querySelectorAll('.tag-filter button');
-    var entries = document.querySelectorAll('#notes-list .entry');
+    var cards   = document.querySelectorAll('#notes-grid .note-card');
     buttons.forEach(function (btn) {
       btn.addEventListener('click', function () {
         var filter = btn.getAttribute('data-filter');
         buttons.forEach(function (b) { b.classList.remove('active'); });
         btn.classList.add('active');
-        entries.forEach(function (e) {
-          if (filter === 'all' || e.getAttribute('data-category') === filter) {
-            e.style.display = '';
+        cards.forEach(function (c) {
+          if (filter === 'all' || c.getAttribute('data-category') === filter) {
+            c.style.display = '';
           } else {
-            e.style.display = 'none';
+            c.style.display = 'none';
           }
         });
       });

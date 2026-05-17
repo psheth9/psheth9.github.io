@@ -731,6 +731,81 @@ pre code { background: transparent; padding: 0; }
 }
 
 /* ============================================================
+   NOTES GRID  (card layout for /notes listing)
+   ============================================================ */
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.note-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 20px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  border-left: 4px solid var(--border);
+  text-decoration: none;
+  color: var(--text);
+  transition: box-shadow 0.15s, border-color 0.15s, transform 0.15s;
+}
+.note-card:hover {
+  box-shadow: 0 4px 18px rgba(0,0,0,0.09);
+  transform: translateY(-2px);
+  text-decoration: none;
+  color: var(--text);
+}
+
+/* Category accent on left border */
+.note-card--algo   { border-left-color: #27ae80; }
+.note-card--graph  { border-left-color: #3b82f6; }
+.note-card--tree   { border-left-color: #22c55e; }
+.note-card--python { border-left-color: #f59e0b; }
+.note-card--sysd   { border-left-color: #ef4444; }
+
+[data-theme="dark"] .note-card--algo   { border-left-color: #5dcaa5; }
+[data-theme="dark"] .note-card--graph  { border-left-color: #7ab8f5; }
+[data-theme="dark"] .note-card--tree   { border-left-color: #8cd45a; }
+[data-theme="dark"] .note-card--python { border-left-color: #f0c060; }
+[data-theme="dark"] .note-card--sysd   { border-left-color: #f0997b; }
+
+.note-card__badges {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.note-card__title {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.35;
+}
+.note-card:hover .note-card__title { color: var(--accent-coral); }
+
+.note-card__summary {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+@media (max-width: 860px) {
+  .notes-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 540px) {
+  .notes-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
    NOTES GATE  (soft password protection for /notes)
    ============================================================ */
 .notes-gate {
