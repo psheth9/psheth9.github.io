@@ -381,6 +381,177 @@ class UnionFind:
         return len({self.find(i) for i in range(len(self.parent))})
 ```
 
+## Union-Find on 2D grid (row,col → flat ID)
+
+```python
+class GridUnionFind:
+    def __init__(self, m, n):
+        self.n = n
+        self.parent = [-1] * (m * n)   # -1 = not yet a land cell
+        self.size   = [0]  * (m * n)
+
+    def get_id(self, r, c):
+        return self.n * r + c          # flatten 2D → 1D
+
+    def activate(self, r, c):
+        i = self.get_id(r, c)
+        self.parent[i] = i
+        self.size[i]   = 1
+
+    def find(self, x):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+
+    def union(self, r1, c1, r2, c2):
+        a, b = self.get_id(r1, c1), self.get_id(r2, c2)
+        ra, rb = self.find(a), self.find(b)
+        if ra == rb: return
+        if self.size[ra] < self.size[rb]: ra, rb = rb, ra
+        self.parent[rb] = ra
+        self.size[ra]  += self.size[rb]
+
+    def count_islands(self):
+        return len({self.find(i) for i in range(len(self.parent)) if self.parent[i] >= 0})
+
+# LC 305 — Number of Islands II (dynamic land additions)
+def numIslands2(m, n, positions):
+    uf   = GridUnionFind(m, n)
+    grid = [[0] * n for _ in range(m)]
+    dirs = [[1,0],[-1,0],[0,1],[0,-1]]
+    result = []
+
+    for r, c in positions:
+        grid[r][c] = 1
+        uf.activate(r, c)
+        for dr, dc in dirs:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < m and 0 <= nc < n and grid[nr][nc] == 1:
+                uf.union(r, c, nr, nc)
+        result.append(uf.count_islands())
+    return result
+```
+
+## Union-Find — detect when all nodes connected (earliest acquisition)
+
+```python
+# Union returns True the moment all nodes become one component.
+# Sort logs by timestamp first, then union until component count hits 1.
+
+def earliestAcq(logs, n):
+    uf = UnionFind(n)          # from the template above
+    logs.sort(key=lambda x: x[0])
+    for time, x, y in logs:
+        uf.union(x, y)
+        if uf.components == 1:
+            return time
+    return -1
+```
+
+## Word search — DFS with backtracking on a grid
+
+```python
+from typing import List
+
+def exist(board: List[List[str]], word: str) -> bool:
+    rows, cols = len(board), len(board[0])
+    dirs = [(-1,0),(1,0),(0,-1),(0,1)]
+
+    def dfs(r, c, idx):
+        if idx == len(word):
+            return True
+        if not (0 <= r < rows and 0 <= c < cols):
+            return False
+        if board[r][c] != word[idx]:
+            return False
+
+        tmp, board[r][c] = board[r][c], '#'    # mark visited in-place
+        found = any(dfs(r+dr, c+dc, idx+1) for dr, dc in dirs)
+        board[r][c] = tmp                       # backtrack — restore cell
+        return found
+
+    return any(dfs(r, c, 0) for r in range(rows) for c in range(cols))
+```
+
+## BFS on abstract graph — Bus Routes (shared-stop adjacency)
+
+```python
+from collections import deque, defaultdict
+from typing import List
+
+# Build a route↔route graph: two routes are neighbors if they share a stop.
+# BFS on routes (not stops) counts minimum bus changes.
+
+def numBusesToDestination(routes: List[List[int]], source: int, target: int) -> int:
+    if source == target:
+        return 0
+
+    routes = [set(r) for r in routes]
+
+    # Build route graph: routes i and j are adjacent if they share a stop
+    route_graph = defaultdict(set)
+    for i in range(len(routes)):
+        for j in range(i + 1, len(routes)):
+            if routes[i] & routes[j]:           # shared stop
+                route_graph[i].add(j)
+                route_graph[j].add(i)
+
+    # Seed BFS with all routes that include source
+    visited_routes = set()
+    q = deque()
+    for i, route in enumerate(routes):
+        if source in route:
+            q.append((i, 1))
+            visited_routes.add(i)
+
+    while q:
+        route_idx, buses = q.popleft()
+        if target in routes[route_idx]:
+            return buses
+        for nei in route_graph[route_idx]:
+            if nei not in visited_routes:
+                visited_routes.add(nei)
+                q.append((nei, buses + 1))
+
+    return -1
+```
+
+## Tree → undirected graph + BFS (path directions)
+
+```python
+from collections import defaultdict, deque
+
+# Build an undirected graph from a binary tree, tagging edges with L/R/U.
+# Then BFS to find the shortest path (with direction string) between two nodes.
+# Pattern: LC 2096 — Step-By-Step Directions From a Binary Tree Node to Another
+
+def getDirections(root, startValue, destValue):
+    graph = defaultdict(list)   # node → [(neighbor, direction)]
+
+    def build(node, parent, direction):
+        if not node: return
+        if parent:
+            graph[parent.val].append((node.val, direction))   # parent → child
+            graph[node.val].append((parent.val, "U"))         # child → parent (up)
+        build(node.left,  node, "L")
+        build(node.right, node, "R")
+
+    build(root, None, "")
+
+    # Standard BFS — accumulate direction string along the path
+    visited = {startValue}
+    q = deque([(startValue, "")])
+
+    while q:
+        node, path = q.popleft()
+        if node == destValue:
+            return path
+        for child, direction in graph[node]:
+            if child not in visited:
+                visited.add(child)
+                q.append((child, path + direction))
+```
+
 ## Complexity reference
 
 | Algorithm | Time | Space |
@@ -400,6 +571,11 @@ class UnionFind:
 - **3-state DFS** — cycle in directed graph, valid tree check
 - **Grid BFS** — walls and gates, rotting oranges, shortest path in grid
 - **Knight moves BFS** — min-move problems on a board
+- **2D grid Union-Find** — number of islands II (dynamic land additions)
+- **Union earliest-connected** — friendship acquisition, network connection problems
+- **Word search DFS** — board word search, path existence with backtracking
+- **Abstract graph BFS** — bus routes, minimum route changes, grouped-stop problems
+- **Tree as undirected graph** — path directions between nodes, LCA-free path finding
 
 ## Sample problems
 
