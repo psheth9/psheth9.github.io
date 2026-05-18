@@ -501,7 +501,7 @@ pre code { background: transparent; padding: 0; }
 /* Stat tiles row */
 .stats-row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
 .stat-tile {
@@ -1679,7 +1679,7 @@ a.now-item__value:hover {
   .profile-card { position: static; }
   .profile-card__avatar { width: 120px; height: 120px; }
   .career-strip { grid-template-columns: repeat(2, 1fr); }
-  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .stats-row { grid-template-columns: 1fr; }
   .also-built { grid-template-columns: 1fr; }
   .wild-grid   { grid-template-columns: 1fr; }
   .recs-grid  { grid-template-columns: 1fr; }
