@@ -28,30 +28,96 @@ description: Personal notes — algorithms practiced and system design case stud
   {% assign medium_notes = site.notes | where: "difficulty", "medium"     | sort: "title" %}
   {% assign hard_notes   = site.notes | where: "difficulty", "hard"       | sort: "title" %}
   {% assign ref_notes    = site.notes | where: "difficulty", "reference"  | sort: "title" %}
-  {% assign sorted_notes = easy_notes | concat: medium_notes | concat: hard_notes | concat: ref_notes %}
   <div class="notes-grid" id="notes-grid">
-    {% for note in sorted_notes %}
-      <a class="note-card note-card--{% if note.category == 'graph' %}graph{% elsif note.category == 'tree' %}tree{% elsif note.category == 'python' %}python{% elsif note.category == 'system-design' %}sysd{% else %}algo{% endif %}"
-         href="{{ note.url | relative_url }}"
-         data-category="{{ note.category }}">
-        <div class="note-card__badges">
-          <span class="entry__tag entry__tag--{% if note.category == 'graph' %}graph{% elsif note.category == 'tree' %}tree{% elsif note.category == 'python' %}python{% elsif note.category == 'system-design' %}sysd{% else %}algo{% endif %}">
-            {%- if note.category == 'graph' -%}graph
-            {%- elsif note.category == 'tree' -%}tree
-            {%- elsif note.category == 'python' -%}python
-            {%- elsif note.category == 'system-design' -%}sys design
-            {%- else -%}algo{%- endif -%}
-          </span>
-          {%- if note.difficulty -%}
-          <span class="note-diff note-diff--{{ note.difficulty }}">{{ note.difficulty }}</span>
-          {%- endif -%}
-        </div>
-        <h3 class="note-card__title">{{ note.title }}</h3>
-        {% if note.summary %}
-          <p class="note-card__summary">{{ note.summary }}</p>
-        {% endif %}
-      </a>
-    {% endfor %}
+
+    {% if easy_notes.size > 0 %}
+      <div class="notes-section-label" data-difficulty="easy">Easy</div>
+      {% for note in easy_notes %}
+        <a class="note-card note-card--{% if note.category == 'graph' %}graph{% elsif note.category == 'tree' %}tree{% elsif note.category == 'python' %}python{% elsif note.category == 'system-design' %}sysd{% else %}algo{% endif %}"
+           href="{{ note.url | relative_url }}"
+           data-category="{{ note.category }}">
+          <div class="note-card__badges">
+            <span class="entry__tag entry__tag--{% if note.category == 'graph' %}graph{% elsif note.category == 'tree' %}tree{% elsif note.category == 'python' %}python{% elsif note.category == 'system-design' %}sysd{% else %}algo{% endif %}">
+              {%- if note.category == 'graph' -%}graph
+              {%- elsif note.category == 'tree' -%}tree
+              {%- elsif note.category == 'python' -%}python
+              {%- elsif note.category == 'system-design' -%}sys design
+              {%- else -%}algo{%- endif -%}
+            </span>
+            <span class="note-diff note-diff--easy">easy</span>
+          </div>
+          <h3 class="note-card__title">{{ note.title }}</h3>
+          {% if note.summary %}<p class="note-card__summary">{{ note.summary }}</p>{% endif %}
+        </a>
+      {% endfor %}
+    {% endif %}
+
+    {% if medium_notes.size > 0 %}
+      <div class="notes-section-label" data-difficulty="medium">Medium</div>
+      {% for note in medium_notes %}
+        <a class="note-card note-card--{% if note.category == 'graph' %}graph{% elsif note.category == 'tree' %}tree{% elsif note.category == 'python' %}python{% elsif note.category == 'system-design' %}sysd{% else %}algo{% endif %}"
+           href="{{ note.url | relative_url }}"
+           data-category="{{ note.category }}">
+          <div class="note-card__badges">
+            <span class="entry__tag entry__tag--{% if note.category == 'graph' %}graph{% elsif note.category == 'tree' %}tree{% elsif note.category == 'python' %}python{% elsif note.category == 'system-design' %}sysd{% else %}algo{% endif %}">
+              {%- if note.category == 'graph' -%}graph
+              {%- elsif note.category == 'tree' -%}tree
+              {%- elsif note.category == 'python' -%}python
+              {%- elsif note.category == 'system-design' -%}sys design
+              {%- else -%}algo{%- endif -%}
+            </span>
+            <span class="note-diff note-diff--medium">medium</span>
+          </div>
+          <h3 class="note-card__title">{{ note.title }}</h3>
+          {% if note.summary %}<p class="note-card__summary">{{ note.summary }}</p>{% endif %}
+        </a>
+      {% endfor %}
+    {% endif %}
+
+    {% if hard_notes.size > 0 %}
+      <div class="notes-section-label" data-difficulty="hard">Hard</div>
+      {% for note in hard_notes %}
+        <a class="note-card note-card--{% if note.category == 'graph' %}graph{% elsif note.category == 'tree' %}tree{% elsif note.category == 'python' %}python{% elsif note.category == 'system-design' %}sysd{% else %}algo{% endif %}"
+           href="{{ note.url | relative_url }}"
+           data-category="{{ note.category }}">
+          <div class="note-card__badges">
+            <span class="entry__tag entry__tag--{% if note.category == 'graph' %}graph{% elsif note.category == 'tree' %}tree{% elsif note.category == 'python' %}python{% elsif note.category == 'system-design' %}sysd{% else %}algo{% endif %}">
+              {%- if note.category == 'graph' -%}graph
+              {%- elsif note.category == 'tree' -%}tree
+              {%- elsif note.category == 'python' -%}python
+              {%- elsif note.category == 'system-design' -%}sys design
+              {%- else -%}algo{%- endif -%}
+            </span>
+            <span class="note-diff note-diff--hard">hard</span>
+          </div>
+          <h3 class="note-card__title">{{ note.title }}</h3>
+          {% if note.summary %}<p class="note-card__summary">{{ note.summary }}</p>{% endif %}
+        </a>
+      {% endfor %}
+    {% endif %}
+
+    {% if ref_notes.size > 0 %}
+      <div class="notes-section-label" data-difficulty="reference">Reference</div>
+      {% for note in ref_notes %}
+        <a class="note-card note-card--{% if note.category == 'graph' %}graph{% elsif note.category == 'tree' %}tree{% elsif note.category == 'python' %}python{% elsif note.category == 'system-design' %}sysd{% else %}algo{% endif %}"
+           href="{{ note.url | relative_url }}"
+           data-category="{{ note.category }}">
+          <div class="note-card__badges">
+            <span class="entry__tag entry__tag--{% if note.category == 'graph' %}graph{% elsif note.category == 'tree' %}tree{% elsif note.category == 'python' %}python{% elsif note.category == 'system-design' %}sysd{% else %}algo{% endif %}">
+              {%- if note.category == 'graph' -%}graph
+              {%- elsif note.category == 'tree' -%}tree
+              {%- elsif note.category == 'python' -%}python
+              {%- elsif note.category == 'system-design' -%}sys design
+              {%- else -%}algo{%- endif -%}
+            </span>
+            <span class="note-diff note-diff--reference">reference</span>
+          </div>
+          <h3 class="note-card__title">{{ note.title }}</h3>
+          {% if note.summary %}<p class="note-card__summary">{{ note.summary }}</p>{% endif %}
+        </a>
+      {% endfor %}
+    {% endif %}
+
   </div>
 {% else %}
   <p style="color: var(--text-muted);">No notes yet. Add a Markdown file to <code>_notes/</code> to publish one.</p>
@@ -63,17 +129,27 @@ description: Personal notes — algorithms practiced and system design case stud
   (function () {
     var buttons = document.querySelectorAll('.tag-filter button');
     var cards   = document.querySelectorAll('#notes-grid .note-card');
+    var labels  = document.querySelectorAll('#notes-grid .notes-section-label');
     buttons.forEach(function (btn) {
       btn.addEventListener('click', function () {
         var filter = btn.getAttribute('data-filter');
         buttons.forEach(function (b) { b.classList.remove('active'); });
         btn.classList.add('active');
         cards.forEach(function (c) {
-          if (filter === 'all' || c.getAttribute('data-category') === filter) {
-            c.style.display = '';
-          } else {
-            c.style.display = 'none';
+          c.style.display = (filter === 'all' || c.getAttribute('data-category') === filter) ? '' : 'none';
+        });
+        // Hide a section label if all cards in its group are hidden
+        labels.forEach(function (label) {
+          var diff = label.getAttribute('data-difficulty');
+          var groupCards = document.querySelectorAll('#notes-grid .note-card[data-category]');
+          // find cards that follow this label until the next label
+          var el = label.nextElementSibling;
+          var anyVisible = false;
+          while (el && !el.classList.contains('notes-section-label')) {
+            if (el.classList.contains('note-card') && el.style.display !== 'none') anyVisible = true;
+            el = el.nextElementSibling;
           }
+          label.style.display = anyVisible ? '' : 'none';
         });
       });
     });

@@ -868,6 +868,24 @@ pre code { background: transparent; padding: 0; }
   flex-grow: 1;
 }
 
+.notes-section-label {
+  grid-column: 1 / -1;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  padding: 4px 0 2px;
+  border-bottom: 1px solid var(--border);
+  margin-top: 8px;
+}
+.notes-section-label:first-child { margin-top: 0; }
+.notes-section-label[data-difficulty="easy"]      { color: #3b9a6e; }
+.notes-section-label[data-difficulty="medium"]    { color: #c8922a; }
+.notes-section-label[data-difficulty="hard"]      { color: #c0392b; }
+.notes-section-label[data-difficulty="reference"] { color: var(--text-faint); }
+
 @media (max-width: 860px) {
   .notes-grid { grid-template-columns: repeat(2, 1fr); }
 }
