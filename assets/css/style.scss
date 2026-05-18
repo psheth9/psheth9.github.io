@@ -1455,6 +1455,13 @@ pre code { background: transparent; padding: 0; }
   color: var(--text-muted);
   line-height: 1.4;
 }
+a.now-item__value {
+  border-bottom: 1px solid var(--border);
+}
+a.now-item__value:hover {
+  color: var(--accent-coral);
+  border-bottom-color: var(--accent-coral);
+}
 
 /* ============================================================
    CASE STUDY PAGE
